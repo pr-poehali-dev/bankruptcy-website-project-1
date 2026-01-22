@@ -5,10 +5,12 @@ import Icon from "@/components/ui/icon";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -39,6 +41,7 @@ const Index = () => {
           description: "Мы свяжемся с вами в ближайшее время",
         });
         setFormData({ name: '', phone: '', debt_amount: '', comment: '' });
+        setDialogOpen(false);
       } else {
         toast({
           title: "❌ Ошибка",
@@ -85,7 +88,7 @@ const Index = () => {
                   <path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2zm3.45 14.8c-.43.46-1.23.72-2.38.76-.39.01-.82.02-1.28.02-1.18 0-2.04-.08-2.56-.23-.69-.2-1.23-.54-1.65-1.03-.42-.49-.74-1.18-1.01-2.09l-.01-.04c-.15-.51-.28-.99-.4-1.43-.37-1.36-.56-2.05-1.16-2.05-.06 0-.16.02-.32.08-.15.06-.32.15-.51.28l-.39-.49c.24-.21.48-.42.72-.62.42-.36.77-.61 1.02-.74.45-.24.88-.36 1.28-.38.85-.04 1.37.5 1.58 1.61.22 1.21.37 1.97.45 2.27.24 1.07.5 1.61.8 1.61.23 0 .58-.36 1.04-1.09.46-.72.71-1.27.75-1.64.07-.61-.18-0.92-.74-.92-.26 0-.53.06-.82.17.54-1.77 1.58-2.63 3.11-2.59 1.13.03 1.66.77 1.6 2.21-.04.89-.35 1.86-0.94 2.91-.56 1-.84 1.64-.84 1.93 0 .19.08.38.25.57.17.19.47.43.91.72.43.29.76.51.98.66.85.57 1.29 1.08 1.32 1.54.04.7-.31 1.05-1.05 1.05-.22 0-.49-.08-.82-.25z"/>
                 </svg>
               </a>
-              <Button onClick={() => scrollToSection("contact")} className="hidden sm:flex gradient-primary hover:opacity-90 transition-opacity">
+              <Button onClick={() => setDialogOpen(true)} className="hidden sm:flex gradient-primary hover:opacity-90 transition-opacity">
                 <Icon name="Phone" size={16} className="mr-2" />
                 Связаться
               </Button>
@@ -103,7 +106,7 @@ const Index = () => {
                     <button onClick={() => scrollToSection("cases")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Кейсы</button>
                     <button onClick={() => scrollToSection("reviews")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Отзывы</button>
                     <button onClick={() => scrollToSection("contact")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Контакты</button>
-                    <Button onClick={() => scrollToSection("contact")} className="gradient-primary hover:opacity-90 w-full mt-4">
+                    <Button onClick={() => { setMobileMenuOpen(false); setDialogOpen(true); }} className="gradient-primary hover:opacity-90 w-full mt-4">
                       <Icon name="Phone" size={16} className="mr-2" />
                       Связаться
                     </Button>
@@ -127,11 +130,11 @@ const Index = () => {
                 Профессиональная помощь в процедуре банкротства. Гарантия результата и возврат средств при неудаче. Бесплатная консультация и анализ ситуации.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="gradient-primary hover:opacity-90 transition-opacity">
+                <Button onClick={() => setDialogOpen(true)} size="lg" className="gradient-primary hover:opacity-90 transition-opacity">
                   <Icon name="MessageCircle" size={20} className="mr-2" />
                   Бесплатная консультация
                 </Button>
-                <Button size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all">
+                <Button onClick={() => setDialogOpen(true)} size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all">
                   <Icon name="Calculator" size={20} className="mr-2" />
                   Рассчитать стоимость
                 </Button>
@@ -687,6 +690,68 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gradient">Получить консультацию</DialogTitle>
+            <DialogDescription>
+              Заполните форму и мы свяжемся с вами в ближайшее время для бесплатной консультации
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Ваше имя *</label>
+              <input 
+                type="text" 
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Иван Иванов"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Телефон *</label>
+              <input 
+                type="tel" 
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="+7 (___) ___-__-__"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Сумма задолженности</label>
+              <input 
+                type="text" 
+                value={formData.debt_amount}
+                onChange={(e) => setFormData({...formData, debt_amount: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Укажите примерную сумму"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Комментарий</label>
+              <textarea 
+                value={formData.comment}
+                onChange={(e) => setFormData({...formData, comment: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                rows={3}
+                placeholder="Опишите вашу ситуацию"
+              />
+            </div>
+            <Button type="submit" disabled={isSubmitting} className="w-full gradient-primary hover:opacity-90 text-white disabled:opacity-50">
+              {isSubmitting ? 'Отправка...' : 'Получить консультацию'}
+              <Icon name="Send" size={16} className="ml-2" />
+            </Button>
+            <p className="text-xs text-gray-500 text-center">
+              Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+            </p>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
