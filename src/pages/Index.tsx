@@ -444,6 +444,120 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <Badge className="gradient-primary text-white border-0">Прозрачный процесс</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Этапы <span className="text-gradient">работы</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Понятный и структурированный процесс от консультации до полного списания долгов
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-5 gap-6">
+            <Card className="relative hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6 space-y-4">
+                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  1
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-xl gradient-primary flex items-center justify-center mb-4">
+                    <Icon name="MessageSquare" className="text-white" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Консультация</h3>
+                  <p className="text-sm text-gray-600">
+                    Бесплатный анализ вашей ситуации. Определяем стратегию и оцениваем перспективы дела.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6 space-y-4">
+                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  2
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-xl gradient-accent flex items-center justify-center mb-4">
+                    <Icon name="FileText" className="text-white" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Сбор документов</h3>
+                  <p className="text-sm text-gray-600">
+                    Помогаем собрать все необходимые справки и выписки. Готовим полный пакет для суда.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6 space-y-4">
+                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  3
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mb-4">
+                    <Icon name="Gavel" className="text-white" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Подача заявления</h3>
+                  <p className="text-sm text-gray-600">
+                    Подаём документы в арбитражный суд. Представляем ваши интересы на всех заседаниях.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6 space-y-4">
+                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  4
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-4">
+                    <Icon name="Scale" className="text-white" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Судебный процесс</h3>
+                  <p className="text-sm text-gray-600">
+                    Ведём дело в суде, взаимодействуем с кредиторами и финансовым управляющим.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
+              <CardContent className="p-6 space-y-4">
+                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                  5
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center mb-4">
+                    <Icon name="CheckCircle2" className="text-white" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Списание долгов</h3>
+                  <p className="text-sm text-gray-600">
+                    Получаем решение суда о списании задолженности. Вы свободны от долгов!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Card className="bg-gradient-to-br from-purple-50 to-orange-50 border-2 border-primary max-w-3xl mx-auto">
+              <CardContent className="p-8">
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <Icon name="Clock" className="text-primary" size={32} />
+                  <h3 className="text-2xl font-bold text-gradient">Средний срок процедуры</h3>
+                </div>
+                <p className="text-4xl font-bold text-primary mb-2">6-12 месяцев</p>
+                <p className="text-gray-600">В зависимости от сложности дела и количества кредиторов</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       <section id="reviews" className="py-20 px-4 bg-gradient-to-br from-slate-50 to-purple-50" ref={reviewsRef.ref}>
         <div className="container mx-auto">
           <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${reviewsRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
