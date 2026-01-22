@@ -31,7 +31,7 @@ const Index = () => {
   const reviewsRef = useIntersectionObserver();
 
   const calculatePrice = () => {
-    let basePrice = calculatorData.personType === 'physical' ? 30000 : 80000;
+    let basePrice = calculatorData.personType === 'physical' ? 90000 : 140000;
     
     if (calculatorData.debtAmount > 5000000) basePrice += 20000;
     else if (calculatorData.debtAmount > 1000000) basePrice += 10000;
