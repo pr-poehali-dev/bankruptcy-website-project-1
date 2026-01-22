@@ -3,14 +3,58 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
+    setMobileMenuOpen(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/b2aab1e1-13c8-4208-97f7-e6a22b37b6f3', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "✅ Заявка отправлена!",
+          description: "Мы свяжемся с вами в ближайшее время",
+        });
+        setFormData({ name: '', phone: '', debt_amount: '', comment: '' });
+      } else {
+        toast({
+          title: "❌ Ошибка",
+          description: data.error || "Не удалось отправить заявку",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "❌ Ошибка сети",
+        description: "Проверьте подключение к интернету",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -32,10 +76,33 @@ const Index = () => {
               <button onClick={() => scrollToSection("reviews")} className="text-sm font-medium hover:text-primary transition-colors">Отзывы</button>
               <button onClick={() => scrollToSection("contact")} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
             </div>
-            <Button className="gradient-primary hover:opacity-90 transition-opacity">
-              <Icon name="Phone" size={16} className="mr-2" />
-              Связаться
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button onClick={() => scrollToSection("contact")} className="hidden sm:flex gradient-primary hover:opacity-90 transition-opacity">
+                <Icon name="Phone" size={16} className="mr-2" />
+                Связаться
+              </Button>
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden">
+                    <Icon name="Menu" size={24} />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <nav className="flex flex-col gap-4 mt-8">
+                    <button onClick={() => scrollToSection("hero")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Главная</button>
+                    <button onClick={() => scrollToSection("services")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Услуги</button>
+                    <button onClick={() => scrollToSection("about")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">О компании</button>
+                    <button onClick={() => scrollToSection("cases")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Кейсы</button>
+                    <button onClick={() => scrollToSection("reviews")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Отзывы</button>
+                    <button onClick={() => scrollToSection("contact")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Контакты</button>
+                    <Button onClick={() => scrollToSection("contact")} className="gradient-primary hover:opacity-90 w-full mt-4">
+                      <Icon name="Phone" size={16} className="mr-2" />
+                      Связаться
+                    </Button>
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </nav>
@@ -490,19 +557,25 @@ const Index = () => {
               </Card>
 
               <Card className="p-8">
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Ваше имя</label>
+                    <label className="block text-sm font-medium mb-2">Ваше имя *</label>
                     <input 
                       type="text" 
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="Иван Иванов"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Телефон</label>
+                    <label className="block text-sm font-medium mb-2">Телефон *</label>
                     <input 
                       type="tel" 
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="+7 (___) ___-__-__"
                     />
@@ -511,6 +584,8 @@ const Index = () => {
                     <label className="block text-sm font-medium mb-2">Сумма задолженности</label>
                     <input 
                       type="text" 
+                      value={formData.debt_amount}
+                      onChange={(e) => setFormData({...formData, debt_amount: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="Укажите примерную сумму"
                     />
@@ -518,13 +593,15 @@ const Index = () => {
                   <div>
                     <label className="block text-sm font-medium mb-2">Комментарий</label>
                     <textarea 
+                      value={formData.comment}
+                      onChange={(e) => setFormData({...formData, comment: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                       rows={3}
                       placeholder="Опишите вашу ситуацию"
                     />
                   </div>
-                  <Button type="submit" className="w-full gradient-primary hover:opacity-90 text-white">
-                    Получить консультацию
+                  <Button type="submit" disabled={isSubmitting} className="w-full gradient-primary hover:opacity-90 text-white disabled:opacity-50">
+                    {isSubmitting ? 'Отправка...' : 'Получить консультацию'}
                     <Icon name="Send" size={16} className="ml-2" />
                   </Button>
                   <p className="text-xs text-gray-500 text-center">
