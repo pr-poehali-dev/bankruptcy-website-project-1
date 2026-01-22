@@ -466,9 +466,9 @@ const Index = () => {
                   <div className="w-14 h-14 rounded-xl gradient-primary flex items-center justify-center mb-4">
                     <Icon name="MessageSquare" className="text-white" size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Консультация</h3>
+                  <h3 className="text-xl font-bold mb-3">Бесплатная консультация</h3>
                   <p className="text-sm text-gray-600">
-                    Бесплатный анализ вашей ситуации. Определяем стратегию и оцениваем перспективы дела.
+                    Экспертиза документов и анализ ситуации
                   </p>
                 </div>
               </CardContent>
@@ -481,11 +481,11 @@ const Index = () => {
                 </div>
                 <div className="pt-4">
                   <div className="w-14 h-14 rounded-xl gradient-accent flex items-center justify-center mb-4">
-                    <Icon name="FileText" className="text-white" size={28} />
+                    <Icon name="FileSignature" className="text-white" size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Сбор документов</h3>
+                  <h3 className="text-xl font-bold mb-3">Заключение договора</h3>
                   <p className="text-sm text-gray-600">
-                    Помогаем собрать все необходимые справки и выписки. Готовим полный пакет для суда.
+                    Подписание договора, внесение клиентом предоплаты
                   </p>
                 </div>
               </CardContent>
@@ -498,11 +498,11 @@ const Index = () => {
                 </div>
                 <div className="pt-4">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mb-4">
-                    <Icon name="Gavel" className="text-white" size={28} />
+                    <Icon name="FileText" className="text-white" size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Подача заявления</h3>
+                  <h3 className="text-xl font-bold mb-3">Сбор документов и подача</h3>
                   <p className="text-sm text-gray-600">
-                    Подаём документы в арбитражный суд. Представляем ваши интересы на всех заседаниях.
+                    Формирование заявления о признании должника банкротом и подача в суд
                   </p>
                 </div>
               </CardContent>
@@ -517,9 +517,9 @@ const Index = () => {
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-4">
                     <Icon name="Scale" className="text-white" size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Судебный процесс</h3>
+                  <h3 className="text-xl font-bold mb-3">Работа в суде</h3>
                   <p className="text-sm text-gray-600">
-                    Ведём дело в суде, взаимодействуем с кредиторами и финансовым управляющим.
+                    Работа арбитражного управляющего и работа Вашего юриста по защите Ваших прав в суде
                   </p>
                 </div>
               </CardContent>
@@ -534,9 +534,9 @@ const Index = () => {
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center mb-4">
                     <Icon name="CheckCircle2" className="text-white" size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Списание долгов</h3>
+                  <h3 className="text-xl font-bold mb-3">Завершение процедуры</h3>
                   <p className="text-sm text-gray-600">
-                    Получаем решение суда о списании задолженности. Вы свободны от долгов!
+                    Получение решения суда и, как результат, полное списание долгов
                   </p>
                 </div>
               </CardContent>
