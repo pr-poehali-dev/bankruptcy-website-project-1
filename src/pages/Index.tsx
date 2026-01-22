@@ -12,38 +12,18 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const [calculatorData, setCalculatorData] = useState({
-    personType: 'physical',
-    debtAmount: 500000,
-    hasProperty: false,
-    creditorsCount: 1,
-    urgency: 'normal'
-  });
+
 
   const servicesRef = useIntersectionObserver();
   const aboutRef = useIntersectionObserver();
   const casesRef = useIntersectionObserver();
   const reviewsRef = useIntersectionObserver();
 
-  const calculatePrice = () => {
-    let basePrice = calculatorData.personType === 'physical' ? 90000 : 140000;
-    
-    if (calculatorData.debtAmount > 5000000) basePrice += 20000;
-    else if (calculatorData.debtAmount > 1000000) basePrice += 10000;
-    
-    if (calculatorData.hasProperty) basePrice += 15000;
-    if (calculatorData.creditorsCount > 5) basePrice += 10000;
-    else if (calculatorData.creditorsCount > 3) basePrice += 5000;
-    
-    if (calculatorData.urgency === 'urgent') basePrice += 20000;
-    
-    return basePrice;
-  };
+
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -163,10 +143,6 @@ const Index = () => {
                 <Button onClick={() => setDialogOpen(true)} size="lg" className="gradient-primary hover:opacity-90 transition-opacity">
                   <Icon name="MessageCircle" size={20} className="mr-2" />
                   Бесплатная консультация
-                </Button>
-                <Button onClick={() => setCalculatorOpen(true)} size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all">
-                  <Icon name="Calculator" size={20} className="mr-2" />
-                  Рассчитать стоимость
                 </Button>
               </div>
               <div className="grid grid-cols-3 gap-6 pt-6">
@@ -780,135 +756,6 @@ const Index = () => {
               Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
             </p>
           </form>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={calculatorOpen} onOpenChange={setCalculatorOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gradient">Калькулятор стоимости услуг</DialogTitle>
-            <DialogDescription>
-              Рассчитайте примерную стоимость процедуры банкротства
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-6 mt-4">
-            <div>
-              <label className="block text-sm font-medium mb-3">Тип лица</label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, personType: 'physical'})}
-                  className={`p-4 border-2 rounded-lg transition-all ${calculatorData.personType === 'physical' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <Icon name="User" className="mx-auto mb-2" size={24} />
-                  <div className="font-semibold">Физическое лицо</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, personType: 'legal'})}
-                  className={`p-4 border-2 rounded-lg transition-all ${calculatorData.personType === 'legal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <Icon name="Building2" className="mx-auto mb-2" size={24} />
-                  <div className="font-semibold">Юридическое лицо</div>
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-3">
-                Сумма задолженности: <span className="text-primary font-bold">{calculatorData.debtAmount.toLocaleString('ru-RU')} ₽</span>
-              </label>
-              <input
-                type="range"
-                min="100000"
-                max="10000000"
-                step="100000"
-                value={calculatorData.debtAmount}
-                onChange={(e) => setCalculatorData({...calculatorData, debtAmount: Number(e.target.value)})}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-              <div className="flex justify-between text-xs text-gray-600 mt-1">
-                <span>100 тыс ₽</span>
-                <span>10 млн ₽</span>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-3">Количество кредиторов</label>
-              <div className="grid grid-cols-4 gap-2">
-                {[1, 3, 5, 10].map((count) => (
-                  <button
-                    key={count}
-                    type="button"
-                    onClick={() => setCalculatorData({...calculatorData, creditorsCount: count})}
-                    className={`p-3 border-2 rounded-lg transition-all font-semibold ${calculatorData.creditorsCount === count ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200'}`}
-                  >
-                    {count === 10 ? '10+' : count}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-3">Наличие имущества</label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, hasProperty: false})}
-                  className={`p-3 border-2 rounded-lg transition-all ${!calculatorData.hasProperty ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <div className="font-semibold">Нет</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, hasProperty: true})}
-                  className={`p-3 border-2 rounded-lg transition-all ${calculatorData.hasProperty ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <div className="font-semibold">Есть</div>
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-3">Срочность</label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, urgency: 'normal'})}
-                  className={`p-3 border-2 rounded-lg transition-all ${calculatorData.urgency === 'normal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <div className="font-semibold">Обычная</div>
-                  <div className="text-xs text-gray-600">6-12 месяцев</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCalculatorData({...calculatorData, urgency: 'urgent'})}
-                  className={`p-3 border-2 rounded-lg transition-all ${calculatorData.urgency === 'urgent' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}
-                >
-                  <div className="font-semibold">Срочная</div>
-                  <div className="text-xs text-gray-600">3-6 месяцев</div>
-                </button>
-              </div>
-            </div>
-
-            <Card className="bg-gradient-to-br from-purple-50 to-orange-50 border-2 border-primary">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-600 mb-1">Примерная стоимость услуг:</div>
-                    <div className="text-3xl font-bold text-gradient">{calculatePrice().toLocaleString('ru-RU')} ₽</div>
-                    <div className="text-xs text-gray-600 mt-2">* Итоговая стоимость может меняться после консультации</div>
-                  </div>
-                  <Icon name="Calculator" className="text-primary" size={48} />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Button onClick={() => { setCalculatorOpen(false); setDialogOpen(true); }} className="w-full gradient-primary hover:opacity-90 text-white">
-              Получить точный расчёт
-              <Icon name="ArrowRight" size={16} className="ml-2" />
-            </Button>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
