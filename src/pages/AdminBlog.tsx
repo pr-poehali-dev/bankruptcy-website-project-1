@@ -16,6 +16,7 @@ const AdminBlog = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -78,6 +79,71 @@ const AdminBlog = () => {
       category: '',
       keywords: ''
     });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, выберите изображение',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'Ошибка',
+        description: 'Размер файла не должен превышать 5 МБ',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setUploadingImage(true);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64 = event.target?.result as string;
+
+        const response = await fetch('https://functions.poehali.dev/292cddb3-7c44-41d9-8771-4cecdea6bff8', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            image: base64,
+            filename: file.name
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки изображения');
+        }
+
+        const data = await response.json();
+        setFormData({ ...formData, image: data.url });
+        
+        toast({
+          title: 'Успешно!',
+          description: 'Изображение загружено'
+        });
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось загрузить изображение',
+        variant: 'destructive'
+      });
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const generateSlug = (title: string) => {
@@ -263,13 +329,38 @@ const AdminBlog = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="image">URL изображения</Label>
-                  <Input
-                    id="image"
-                    value={formData.image}
-                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
-                  />
+                  <Label htmlFor="image">Изображение</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="image"
+                      value={formData.image}
+                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      placeholder="https://images.unsplash.com/..."
+                      className="flex-1"
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        disabled={uploadingImage}
+                      />
+                      <Button type="button" variant="outline" disabled={uploadingImage} className="gap-2">
+                        {uploadingImage ? (
+                          <Icon name="Loader2" size={16} className="animate-spin" />
+                        ) : (
+                          <Icon name="Upload" size={16} />
+                        )}
+                        {uploadingImage ? 'Загрузка...' : 'Загрузить'}
+                      </Button>
+                    </div>
+                  </div>
+                  {formData.image && (
+                    <div className="mt-2">
+                      <img src={formData.image} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
