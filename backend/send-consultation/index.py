@@ -115,10 +115,18 @@ def handler(event: dict, context) -> dict:
         msg.attach(part_text)
         msg.attach(part_html)
         
-        with smtplib.SMTP(smtp_host, smtp_port) as server:
+        # Используем SSL для порта 465, иначе STARTTLS для 587
+        if smtp_port == 465:
+            server = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=10)
+        else:
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=10)
             server.starttls()
+        
+        try:
             server.login(smtp_user, smtp_password)
             server.send_message(msg)
+        finally:
+            server.quit()
         
         return {
             'statusCode': 200,
