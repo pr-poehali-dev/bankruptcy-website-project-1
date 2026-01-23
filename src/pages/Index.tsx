@@ -87,6 +87,7 @@ const Index = () => {
               <button onClick={() => scrollToSection("about")} className="text-sm font-medium hover:text-primary transition-colors">О компании</button>
               <button onClick={() => scrollToSection("cases")} className="text-sm font-medium hover:text-primary transition-colors">Кейсы</button>
               <button onClick={() => scrollToSection("reviews")} className="text-sm font-medium hover:text-primary transition-colors">Отзывы</button>
+              <a href="/blog" className="text-sm font-medium hover:text-primary transition-colors">Блог</a>
               <button onClick={() => scrollToSection("contact")} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
             </div>
             <div className="flex items-center gap-3">
@@ -115,6 +116,7 @@ const Index = () => {
                     <button onClick={() => scrollToSection("about")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">О компании</button>
                     <button onClick={() => scrollToSection("cases")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Кейсы</button>
                     <button onClick={() => scrollToSection("reviews")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Отзывы</button>
+                    <a href="/blog" className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Блог</a>
                     <button onClick={() => scrollToSection("contact")} className="text-left text-lg font-medium hover:text-primary transition-colors py-3 border-b">Контакты</button>
                     <Button onClick={() => { setMobileMenuOpen(false); setDialogOpen(true); }} className="gradient-primary hover:opacity-90 w-full mt-4">
                       <Icon name="Phone" size={16} className="mr-2" />
