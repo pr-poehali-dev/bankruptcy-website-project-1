@@ -76,7 +76,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="Mail" size={16} />
-                <span>infofaq@bezdolgov.ru</span>
+                <span>infofaq@bezdolgov59.ru</span>
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="MapPin" size={16} />
