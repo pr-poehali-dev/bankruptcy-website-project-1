@@ -14,7 +14,7 @@ const Footer = () => {
               <span className="text-xl font-bold">БезДолгов59</span>
             </div>
             <p className="text-sm text-gray-400">
-              Профессиональная помощь в процедуре банкротства с 2019 года
+              Профессиональная помощь в процедуре банкротства с 2020 года
             </p>
           </div>
           <div>

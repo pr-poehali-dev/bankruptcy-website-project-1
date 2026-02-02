@@ -134,7 +134,7 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
-              <Badge className="gradient-accent text-white border-0">Более 5 лет успешной практики</Badge>
+              <Badge className="gradient-accent text-white border-0">Более 4 лет успешной практики</Badge>
               <h1 className="text-5xl md:text-6xl font-bold leading-tight">
                 Банкротство <span className="text-gradient">физических</span> и <span className="text-gradient">юридических</span> лиц
               </h1>
@@ -295,7 +295,7 @@ const Index = () => {
             <div className={`space-y-6 transition-all duration-700 ${aboutRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
               <Badge className="gradient-primary text-white border-0">О компании</Badge>
               <h2 className="text-4xl md:text-5xl font-bold">
-                Более <span className="text-gradient">5 лет опыта</span> в банкротстве
+                Более <span className="text-gradient">4 лет опыта</span> в банкротстве
               </h2>
               <p className="text-gray-700 leading-relaxed">
                 Мы специализируемся на процедурах банкротства физических и юридических лиц. За годы работы успешно провели сотни дел, помогая людям и компаниям освободиться от долговых обязательств.
