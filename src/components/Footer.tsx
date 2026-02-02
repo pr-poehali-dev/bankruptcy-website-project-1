@@ -11,7 +11,7 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
                 <Icon name="Scale" className="text-white" size={20} />
               </div>
-              <span className="text-xl font-bold">БанкротЭксперт</span>
+              <span className="text-xl font-bold">БезДолгов59</span>
             </div>
             <p className="text-sm text-gray-400">
               Профессиональная помощь в процедуре банкротства с 2019 года
@@ -76,11 +76,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="Mail" size={16} />
-                <span>info@bankrotexpert.ru</span>
+                <span>infofaq@bezdolgov.ru</span>
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="MapPin" size={16} />
-                <span>Москва, ул. Примерная, 1</span>
+                <span>г. Пермь, ул. Екатерининская 109А, оф. 305</span>
               </li>
             </ul>
             <div className="flex gap-3 mt-4">
@@ -106,7 +106,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 БанкротЭксперт. Все права защищены.</p>
+          <p>&copy; 2024 БезДолгов59. Все права защищены.</p>
         </div>
       </div>
     </footer>

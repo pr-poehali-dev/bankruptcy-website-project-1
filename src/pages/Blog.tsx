@@ -15,7 +15,7 @@ const Blog = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    document.title = 'Блог о банкротстве физических лиц | БанкротЭксперт';
+    document.title = 'Блог о банкротстве физических лиц | БезДолгов59';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 'Полезные статьи о банкротстве физических лиц: инструкции, советы экспертов, актуальная информация о законодательстве.');

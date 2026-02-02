@@ -79,7 +79,7 @@ const Index = () => {
               <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
                 <Icon name="Scale" className="text-white" size={20} />
               </div>
-              <span className="text-xl font-bold text-gradient">БанкротЭксперт</span>
+              <span className="text-xl font-bold text-gradient">БезДолгов59</span>
             </div>
             <div className="hidden md:flex items-center gap-6">
               <button onClick={() => scrollToSection("hero")} className="text-sm font-medium hover:text-primary transition-colors">Главная</button>
@@ -671,7 +671,7 @@ const Index = () => {
                     </div>
                     <div>
                       <div className="font-semibold mb-1">Email</div>
-                      <a href="mailto:info@bankrotexpert.ru" className="text-primary hover:underline">info@bankrotexpert.ru</a>
+                      <a href="mailto:infofaq@bezdolgov.ru" className="text-primary hover:underline">infofaq@bezdolgov.ru</a>
                       <div className="text-sm text-gray-600 mt-1">Ответим в течение часа</div>
                     </div>
                   </div>
@@ -682,7 +682,7 @@ const Index = () => {
                     </div>
                     <div>
                       <div className="font-semibold mb-1">Офис</div>
-                      <div className="text-gray-700">г. Москва, ул. Пушкина, д. 10</div>
+                      <div className="text-gray-700">г. Пермь, ул. Екатерининская 109А, оф. 305</div>
                       <div className="text-sm text-gray-600 mt-1">Приём по предварительной записи</div>
                     </div>
                   </div>

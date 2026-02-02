@@ -27,7 +27,7 @@ const Navbar = ({ onConsultationClick }: NavbarProps) => {
             <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
               <Icon name="Scale" className="text-white" size={20} />
             </div>
-            <span className="text-xl font-bold text-gradient">БанкротЭксперт</span>
+            <span className="text-xl font-bold text-gradient">БезДолгов59</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">

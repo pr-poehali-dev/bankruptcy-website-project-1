@@ -18,7 +18,7 @@ const BlogPost = () => {
 
   useEffect(() => {
     if (post) {
-      document.title = `${post.title} | БанкротЭксперт`;
+      document.title = `${post.title} | БезДолгов59`;
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute('content', post.description);
