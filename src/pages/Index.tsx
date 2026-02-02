@@ -828,7 +828,7 @@ const Index = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <Icon name="MapPin" size={16} />
-                  Москва, ул. Пушкина, 10
+                  Пермь, ул. Екатерининская 109А, оф. 305
                 </li>
               </ul>
               <div className="flex items-center gap-3 mt-6">
