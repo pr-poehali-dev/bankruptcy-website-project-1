@@ -824,7 +824,7 @@ const Index = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <Icon name="Mail" size={16} />
-                  info@bankrotexpert.ru
+                  infofaq@bezdolgov59.ru
                 </li>
                 <li className="flex items-center gap-2">
                   <Icon name="MapPin" size={16} />
