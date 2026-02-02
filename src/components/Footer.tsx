@@ -72,7 +72,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Icon name="Phone" size={16} />
-                <span>+7 (999) 123-45-67</span>
+                <span>+7 (800) 123-45-67</span>
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="Mail" size={16} />
@@ -80,7 +80,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="MapPin" size={16} />
-                <span>г. Пермь, ул. Екатерининская 109А, оф. 305</span>
+                <span>Пермь, ул. Екатерининская 109А, оф. 305</span>
               </li>
             </ul>
             <div className="flex gap-3 mt-4">
