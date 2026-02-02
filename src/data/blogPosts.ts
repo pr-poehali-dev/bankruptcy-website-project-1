@@ -50,7 +50,7 @@ export const blogPosts: BlogPost[] = [
 <p><strong>Важно помнить:</strong> банкротство — это не конец, а возможность начать финансовую жизнь с чистого листа.</p>
     `,
     image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
-    author: 'Юридическая команда БанкротЭксперт',
+    author: 'Юридическая команда БезДолгов59',
     date: '15 января 2026',
     readTime: '5 мин',
     category: 'Советы',

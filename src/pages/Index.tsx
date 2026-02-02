@@ -791,7 +791,7 @@ const Index = () => {
                 <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
                   <Icon name="Scale" className="text-white" size={20} />
                 </div>
-                <span className="text-xl font-bold">БанкротЭксперт</span>
+                <span className="text-xl font-bold">БезДолгов59</span>
               </div>
               <p className="text-sm text-gray-400">
                 Профессиональная помощь в процедуре банкротства с 2019 года
