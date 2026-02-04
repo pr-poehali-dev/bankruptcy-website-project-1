@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -17,6 +17,15 @@ const Index = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    document.title = "БезДолгов59 — Банкротство в Пермском крае | Списание долгов в Перми";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'БезДолгов59 — банкротство физических и юридических лиц в Перми и Пермском крае. Списание долгов, защита от коллекторов, работа с судами. Опыт 5+ лет, 500+ успешных дел. Бесплатная консультация ☎️ +7 (902) 64-44-201');
+    }
+  }, []);
 
 
 
@@ -138,10 +147,10 @@ const Index = () => {
             <div className="space-y-6 animate-fade-in">
               <Badge className="gradient-accent text-white border-0">Более 4 лет успешной практики</Badge>
               <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-                Банкротство <span className="text-gradient">физических</span> и <span className="text-gradient">юридических</span> лиц
+                Банкротство <span className="text-gradient">физических</span> и <span className="text-gradient">юридических</span> лиц в Пермском крае
               </h1>
               <p className="text-lg text-gray-600">
-                Профессиональная помощь в процедуре банкротства. Гарантия результата и возврат средств при неудаче. Бесплатная консультация и анализ ситуации.
+                БезДолгов59 — списание долгов, защита от коллекторов и работа с судами в Перми. Гарантия результата и возврат средств при неудаче. Бесплатная консультация и анализ ситуации.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={() => setDialogOpen(true)} size="lg" className="gradient-primary hover:opacity-90 transition-opacity">
