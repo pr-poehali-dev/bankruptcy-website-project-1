@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { Link } from "react-router-dom";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
@@ -214,12 +213,10 @@ const Index = () => {
                     <span className="text-sm">Защита имущества от необоснованных претензий</span>
                   </li>
                 </ul>
-                <Link to="/individual-bankruptcy" className="block">
-                  <Button className="w-full gradient-primary hover:opacity-90">
-                    Подробнее
-                    <Icon name="ArrowRight" size={16} className="ml-2" />
-                  </Button>
-                </Link>
+                <Button className="w-full gradient-primary hover:opacity-90">
+                  Подробнее
+                  <Icon name="ArrowRight" size={16} className="ml-2" />
+                </Button>
               </CardContent>
             </Card>
 
@@ -250,39 +247,15 @@ const Index = () => {
                     <span className="text-sm">Ликвидация компаний с минимальными издержками</span>
                   </li>
                 </ul>
-                <Link to="/corporate-bankruptcy" className="block">
-                  <Button className="w-full gradient-accent hover:opacity-90">
-                    Подробнее
-                    <Icon name="ArrowRight" size={16} className="ml-2" />
-                  </Button>
-                </Link>
+                <Button className="w-full gradient-accent hover:opacity-90">
+                  Подробнее
+                  <Icon name="ArrowRight" size={16} className="ml-2" />
+                </Button>
               </CardContent>
             </Card>
           </div>
 
-          <div className="mt-12 grid md:grid-cols-4 gap-6">
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setDialogOpen(true)}>
-              <CardContent className="pt-6 space-y-3">
-                <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mx-auto">
-                  <Icon name="MessageCircle" className="text-white" size={24} />
-                </div>
-                <h4 className="font-bold text-lg">Консультации</h4>
-                <p className="text-sm text-gray-600">Получите бесплатную консультацию специалиста</p>
-              </CardContent>
-            </Card>
-
-            <Link to="/restructuring" className="block">
-              <Card className="text-center p-6 hover:shadow-lg transition-shadow h-full">
-                <CardContent className="pt-6 space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center mx-auto">
-                    <Icon name="RefreshCw" className="text-white" size={24} />
-                  </div>
-                  <h4 className="font-bold text-lg">Реструктуризация</h4>
-                  <p className="text-sm text-gray-600">Пересмотр условий кредитов и снижение нагрузки</p>
-                </CardContent>
-              </Card>
-            </Link>
-
+          <div className="mt-12 grid md:grid-cols-3 gap-6">
             <Card className="text-center p-6 hover:shadow-lg transition-shadow">
               <CardContent className="pt-6 space-y-3">
                 <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mx-auto">
