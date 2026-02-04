@@ -21,19 +21,19 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Услуги</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <a href="#services" className="hover:text-white transition-colors">
+                <Link to="/individual-bankruptcy" className="hover:text-white transition-colors">
                   Банкротство физ. лиц
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-white transition-colors">
+                <Link to="/corporate-bankruptcy" className="hover:text-white transition-colors">
                   Банкротство юр. лиц
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-white transition-colors">
+                <Link to="/restructuring" className="hover:text-white transition-colors">
                   Реструктуризация
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#contact" className="hover:text-white transition-colors">
