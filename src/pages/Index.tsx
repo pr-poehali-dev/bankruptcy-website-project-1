@@ -8,6 +8,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useNavigate } from "react-router-dom";
+import SafeImage from "@/components/SafeImage";
+import { IMAGES } from "@/config/images";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -182,9 +184,13 @@ const Index = () => {
             <div className="relative">
               <div className="absolute inset-0 gradient-primary rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
               <Card className="relative overflow-hidden border-0 shadow-2xl">
-                <div className="aspect-square bg-gradient-to-br from-purple-100 to-orange-100 flex items-center justify-center">
-                  <Icon name="Scale" size={200} className="text-primary/20" />
-                </div>
+                <SafeImage
+                  src={IMAGES.hero.main}
+                  alt="Банкротство физических и юридических лиц в Перми"
+                  className="aspect-square w-full h-full object-cover"
+                  fallbackIcon="Scale"
+                  fallbackGradient="from-purple-100 to-orange-100"
+                />
               </Card>
             </div>
           </div>
@@ -370,9 +376,13 @@ const Index = () => {
             <div className="relative">
               <div className="absolute inset-0 gradient-accent rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
               <Card className="relative overflow-hidden border-0 shadow-2xl">
-                <div className="aspect-square bg-gradient-to-br from-orange-100 to-purple-100 flex items-center justify-center">
-                  <Icon name="TrendingUp" size={200} className="text-accent/20" />
-                </div>
+                <SafeImage
+                  src={IMAGES.about.main}
+                  alt="О компании БезДолгов59"
+                  className="aspect-square w-full h-full object-cover"
+                  fallbackIcon="TrendingUp"
+                  fallbackGradient="from-orange-100 to-purple-100"
+                />
               </Card>
             </div>
           </div>
