@@ -3,6 +3,7 @@ import { getBlogPostBySlug } from '@/data/blogPosts';
 import Icon from '@/components/ui/icon';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SafeImage from '@/components/SafeImage';
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -133,10 +134,12 @@ const BlogPost = () => {
 
               {/* Featured Image */}
               <div className="rounded-2xl overflow-hidden shadow-xl mb-8">
-                <img
+                <SafeImage
                   src={post.image}
                   alt={post.title}
                   className="w-full h-[400px] object-cover"
+                  fallbackIcon="FileText"
+                  fallbackGradient="from-purple-100 to-blue-100"
                 />
               </div>
 

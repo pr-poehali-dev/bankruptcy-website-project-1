@@ -3,6 +3,7 @@ import { blogPosts } from '@/data/blogPosts';
 import Icon from '@/components/ui/icon';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SafeImage from '@/components/SafeImage';
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -86,10 +87,12 @@ const Blog = () => {
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img
+                  <SafeImage
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    fallbackIcon="FileText"
+                    fallbackGradient="from-purple-100 to-blue-100"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">

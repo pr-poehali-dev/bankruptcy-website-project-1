@@ -49,7 +49,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Важно помнить:</strong> банкротство — это не конец, а возможность начать финансовую жизнь с чистого листа.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/88bd532d-c757-44ac-8a48-65a88b89c8af.jpg',
     author: 'Юридическая команда БезДолгов59',
     date: '15 января 2026',
     readTime: '5 мин',
@@ -96,7 +96,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Наши специалисты готовы помочь вам на каждом этапе процедуры банкротства.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/0b4233ba-98ff-4542-a284-3a43f1ff8714.jpg',
     author: 'Максим Соколов',
     date: '10 января 2026',
     readTime: '7 мин',
@@ -153,7 +153,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Совет эксперта:</strong> перед началом процедуры проконсультируйтесь с юристом, чтобы точно понимать, какие долги будут списаны в вашем конкретном случае.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/d091a4f1-f0a7-4c76-b54b-9fc5913c6ca3.jpg',
     author: 'Анна Петрова',
     date: '5 января 2026',
     readTime: '6 мин',
@@ -210,7 +210,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Помните:</strong> финансовая грамотность — это не врожденный навык, а результат обучения и практики.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1579621970795-87facc2f976d?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/5b6c77f6-19ab-44a4-89c6-82d67295d095.jpg',
     author: 'Елена Смирнова',
     date: '20 января 2026',
     readTime: '8 мин',
@@ -276,7 +276,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Важно:</strong> каждая ситуация индивидуальна. Обратитесь к специалисту для оценки вашего случая.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/e176d335-425b-4394-9b17-3efbc93bbc45.jpg',
     author: 'Максим Соколов',
     date: '18 января 2026',
     readTime: '7 мин',
@@ -364,7 +364,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Главное правило:</strong> лучше простой бюджет, который вы ведете, чем идеальный, который забросили через неделю.</p>
     `,
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/5679eda6-78fd-4484-a5dc-709110346b2b.jpg',
     author: 'Елена Смирнова',
     date: '22 января 2026',
     readTime: '9 мин',
