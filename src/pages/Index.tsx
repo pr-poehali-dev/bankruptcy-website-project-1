@@ -7,8 +7,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -219,7 +221,7 @@ const Index = () => {
                     <span className="text-sm">Защита имущества от необоснованных претензий</span>
                   </li>
                 </ul>
-                <Button className="w-full gradient-primary hover:opacity-90">
+                <Button onClick={() => navigate('/individual-bankruptcy')} className="w-full gradient-primary hover:opacity-90">
                   Подробнее
                   <Icon name="ArrowRight" size={16} className="ml-2" />
                 </Button>
@@ -253,7 +255,7 @@ const Index = () => {
                     <span className="text-sm">Ликвидация компаний с минимальными издержками</span>
                   </li>
                 </ul>
-                <Button className="w-full gradient-accent hover:opacity-90">
+                <Button onClick={() => navigate('/corporate-bankruptcy')} className="w-full gradient-accent hover:opacity-90">
                   Подробнее
                   <Icon name="ArrowRight" size={16} className="ml-2" />
                 </Button>
