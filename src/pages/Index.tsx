@@ -146,6 +146,12 @@ const Index = () => {
                   <Icon name="MessageCircle" size={20} className="mr-2" />
                   Бесплатная консультация
                 </Button>
+                <Button asChild size="lg" variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors">
+                  <a href="tel:+79026444201">
+                    <Icon name="Phone" size={20} className="mr-2" />
+                    Позвонить
+                  </a>
+                </Button>
               </div>
               <div className="grid grid-cols-3 gap-6 pt-6">
                 <div className="space-y-1">
