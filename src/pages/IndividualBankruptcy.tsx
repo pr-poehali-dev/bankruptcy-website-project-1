@@ -2,12 +2,55 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
 const IndividualBankruptcy = () => {
+  useEffect(() => {
+    document.title = "Банкротство физических лиц в Перми и Пермском крае | БезДолгов59";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Банкротство физических лиц в Пермском крае ⚖️ БезДолгов59 — списание долгов, защита от коллекторов, работа с судами. Бесплатная консультация. Опыт 5+ лет.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Банкротство физических лиц в Пермском крае ⚖️ БезДолгов59 — списание долгов, защита от коллекторов, работа с судами. Бесплатная консультация. Опыт 5+ лет.';
+      document.head.appendChild(meta);
+    }
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'банкротство физических лиц Пермь, банкротство в Пермском крае, списание долгов Пермь, БезДолгов59, защита от коллекторов, работа с коллекторами, списать долги Пермь, банкротство граждан, процедура банкротства Пермь');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'банкротство физических лиц Пермь, банкротство в Пермском крае, списание долгов Пермь, БезДолгов59, защита от коллекторов, работа с коллекторами, списать долги Пермь, банкротство граждан, процедура банкротства Пермь';
+      document.head.appendChild(meta);
+    }
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Банкротство физических лиц в Перми | БезДолгов59');
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:title');
+      meta.content = 'Банкротство физических лиц в Перми | БезДолгов59';
+      document.head.appendChild(meta);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Профессиональная помощь в банкротстве физических лиц в Пермском крае. Списание долгов, защита от коллекторов, бесплатная консультация.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:description');
+      meta.content = 'Профессиональная помощь в банкротстве физических лиц в Пермском крае. Списание долгов, защита от коллекторов, бесплатная консультация.';
+      document.head.appendChild(meta);
+    }
+  }, []);
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '' });
@@ -89,19 +132,19 @@ const IndividualBankruptcy = () => {
             <div className="text-center space-y-4">
               <Badge className="gradient-primary text-white border-0">Услуги</Badge>
               <h1 className="text-4xl md:text-5xl font-bold">
-                Банкротство <span className="text-gradient">физических лиц</span>
+                Банкротство <span className="text-gradient">физических лиц</span> в Перми и Пермском крае
               </h1>
               <p className="text-lg text-gray-600">
-                Законный способ избавиться от долгов и начать жизнь с чистого листа
+                Списание долгов, защита от коллекторов и законное освобождение от финансовых обязательств с БезДолгов59
               </p>
             </div>
 
             <Card className="p-8">
               <CardContent className="space-y-6 p-0">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4">Что такое банкротство физических лиц?</h2>
+                  <h2 className="text-2xl font-bold mb-4">Банкротство физических лиц в Пермском крае — что это?</h2>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Банкротство физических лиц — это законная процедура, позволяющая гражданам, которые не могут расплатиться с долгами, получить освобождение от финансовых обязательств. Процедура регулируется Федеральным законом №127-ФЗ «О несостоятельности (банкротстве)» и дает возможность списать долги перед банками, микрофинансовыми организациями, коллекторами и другими кредиторами.
+                    Банкротство физических лиц в Пермском крае — это законная процедура списания долгов, позволяющая гражданам, которые не могут расплатиться с долгами перед банками и коллекторами, получить освобождение от финансовых обязательств. БезДолгов59 предоставляет полное сопровождение процедуры банкротства в Перми. Процедура регулируется Федеральным законом №127-ФЗ «О несостоятельности (банкротстве)» и дает возможность списать долги перед банками, микрофинансовыми организациями, коллекторами и другими кредиторами.
                   </p>
                   <p className="text-gray-700 leading-relaxed mb-4">
                     Основная цель процедуры — предоставить добросовестному должнику возможность начать финансовую жизнь заново, освободившись от непосильного долгового бремени. При этом процедура защищает интересы как должника, так и кредиторов, обеспечивая справедливое распределение имущества и соблюдение прав всех сторон.

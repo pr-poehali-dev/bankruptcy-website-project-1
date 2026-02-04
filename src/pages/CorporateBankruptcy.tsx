@@ -2,12 +2,55 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
 const CorporateBankruptcy = () => {
+  useEffect(() => {
+    document.title = "Банкротство юридических лиц в Перми и Пермском крае | БезДолгов59";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Банкротство юридических лиц и ликвидация компаний в Пермском крае ⚖️ БезДолгов59 — полное сопровождение процедуры, защита руководителей. Бесплатная консультация.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Банкротство юридических лиц и ликвидация компаний в Пермском крае ⚖️ БезДолгов59 — полное сопровождение процедуры, защита руководителей. Бесплатная консультация.';
+      document.head.appendChild(meta);
+    }
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'банкротство юридических лиц Пермь, БезДолгов59, ликвидация ООО Пермь, банкротство ООО Пермский край, банкротство в Пермском крае, арбитражный управляющий Пермь, конкурсное производство Пермь');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'банкротство юридических лиц Пермь, БезДолгов59, ликвидация ООО Пермь, банкротство ООО Пермский край, банкротство в Пермском крае, арбитражный управляющий Пермь, конкурсное производство Пермь';
+      document.head.appendChild(meta);
+    }
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Банкротство юридических лиц в Перми | БезДолгов59');
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:title');
+      meta.content = 'Банкротство юридических лиц в Перми | БезДолгов59';
+      document.head.appendChild(meta);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Профессиональное сопровождение банкротства юридических лиц в Пермском крае. Ликвидация ООО, защита руководителей.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:description');
+      meta.content = 'Профессиональное сопровождение банкротства юридических лиц в Пермском крае. Ликвидация ООО, защита руководителей.';
+      document.head.appendChild(meta);
+    }
+  }, []);
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '' });
@@ -89,19 +132,19 @@ const CorporateBankruptcy = () => {
             <div className="text-center space-y-4">
               <Badge className="gradient-accent text-white border-0">Услуги</Badge>
               <h1 className="text-4xl md:text-5xl font-bold">
-                Банкротство <span className="text-gradient">юридических лиц</span>
+                Банкротство <span className="text-gradient">юридических лиц</span> в Перми и Пермском крае
               </h1>
               <p className="text-lg text-gray-600">
-                Профессиональное сопровождение процедуры банкротства компаний любых форм собственности
+                Ликвидация ООО и полное сопровождение банкротства компаний с БезДолгов59. Защита руководителей от субсидиарной ответственности
               </p>
             </div>
 
             <Card className="p-8">
               <CardContent className="space-y-6 p-0">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4">Что такое банкротство юридических лиц?</h2>
+                  <h2 className="text-2xl font-bold mb-4">Банкротство юридических лиц в Пермском крае — что это?</h2>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Банкротство юридического лица — это признанная арбитражным судом неспособность должника в полном объеме удовлетворить требования кредиторов по денежным обязательствам и исполнить обязанность по уплате обязательных платежей. Процедура регулируется Федеральным законом №127-ФЗ «О несостоятельности (банкротстве)» и представляет собой комплекс мероприятий по защите прав кредиторов и восстановлению платежеспособности или ликвидации компании.
+                    Банкротство юридического лица в Пермском крае — это процедура ликвидации ООО, признанная арбитражным судом неспособность должника в полном объеме удовлетворить требования кредиторов. БезДолгов59 обеспечивает полное сопровождение банкротства компаний в Перми. Процедура регулируется Федеральным законом №127-ФЗ «О несостоятельности (банкротстве)» и представляет собой комплекс мероприятий по защите прав кредиторов и восстановлению платежеспособности или ликвидации компании.
                   </p>
                   <p className="text-gray-700 leading-relaxed mb-4">
                     Банкротство компании может быть как вынужденной мерой при невозможности погашения долгов, так и стратегическим решением для оптимизации бизнеса. В процессе банкротства происходит инвентаризация имущества должника, формирование конкурсной массы, удовлетворение требований кредиторов в порядке очередности, установленной законом, и при необходимости — ликвидация компании с исключением из ЕГРЮЛ.
