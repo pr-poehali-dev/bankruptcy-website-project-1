@@ -37,21 +37,20 @@ const SafeImage = ({
   }
 
   return (
-    <>
+    <div className="relative">
       {isLoading && (
-        <div className={`bg-gradient-to-br ${fallbackGradient} flex items-center justify-center ${className} animate-pulse`}>
+        <div className={`absolute inset-0 bg-gradient-to-br ${fallbackGradient} flex items-center justify-center ${className} animate-pulse`}>
           <Icon name="Loader2" size={48} className="text-primary/40 animate-spin" />
         </div>
       )}
       <img
         src={src}
         alt={alt}
-        className={`${className} ${isLoading ? 'hidden' : 'block'}`}
+        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         onError={handleError}
         onLoad={handleLoad}
-        loading="lazy"
       />
-    </>
+    </div>
   );
 };
 
