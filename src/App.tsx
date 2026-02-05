@@ -11,7 +11,7 @@ import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
 import IndividualBankruptcy from "./pages/IndividualBankruptcy";
 import CorporateBankruptcy from "./pages/CorporateBankruptcy";
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +32,7 @@ const App = () => (
             <Route path="/individual-bankruptcy" element={<IndividualBankruptcy />} />
             <Route path="/corporate-bankruptcy" element={<CorporateBankruptcy />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
