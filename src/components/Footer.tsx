@@ -85,7 +85,7 @@ const Footer = () => {
             </ul>
             <div className="flex gap-3 mt-4">
               <a
-                href="https://t.me/yourusername"
+                href="https://t.me/Bez_Dolgov_All"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -93,7 +93,7 @@ const Footer = () => {
                 <Icon name="Send" size={16} />
               </a>
               <a
-                href="https://vk.com/yourpage"
+                href="https://vk.com/bezdolgov59"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"

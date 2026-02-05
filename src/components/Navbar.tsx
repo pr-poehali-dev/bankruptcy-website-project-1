@@ -46,7 +46,7 @@ const Navbar = ({ onConsultationClick }: NavbarProps) => {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://t.me/yourusername"
+              href="https://t.me/Bez_Dolgov_All"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 hover:opacity-80 transition-opacity items-center justify-center"
@@ -54,7 +54,7 @@ const Navbar = ({ onConsultationClick }: NavbarProps) => {
               <Icon name="Send" size={18} className="text-white" />
             </a>
             <a
-              href="https://vk.com/yourpage"
+              href="https://vk.com/bezdolgov59"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 hover:opacity-80 transition-opacity items-center justify-center"
