@@ -1,6 +1,6 @@
 export const IMAGES = {
   hero: {
-    main: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/20a51b75-d269-425a-bf0c-947fd0031591.jpg',
+    main: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/17594dad-7533-40ed-9f8f-bf67121e4243.jpg',
     fallback: '/images/hero-fallback.svg'
   },
   about: {
