@@ -90,9 +90,9 @@ def handler(event: dict, context) -> dict:
         smtp_port = int(os.environ.get('SMTP_PORT', '587'))
         smtp_user = os.environ.get('SMTP_USER')
         smtp_password = os.environ.get('SMTP_PASSWORD')
-        contact_email = os.environ.get('CONTACT_EMAIL')
+        recipient_email = os.environ.get('RECIPIENT_EMAIL')
 
-        if not all([smtp_host, smtp_user, smtp_password, contact_email]):
+        if not all([smtp_host, smtp_user, smtp_password, recipient_email]):
             return {
                 'statusCode': 500,
                 'headers': {
@@ -105,7 +105,7 @@ def handler(event: dict, context) -> dict:
         msg = MIMEMultipart('alternative')
         msg['Subject'] = f'Новая заявка от {name}'
         msg['From'] = smtp_user
-        msg['To'] = contact_email
+        msg['To'] = recipient_email
 
         html_body = f'''
         <html>
@@ -122,7 +122,7 @@ def handler(event: dict, context) -> dict:
                 {f'<div style="background: #fff; padding: 15px; border-left: 4px solid #9b87f5; margin-bottom: 15px;"><p style="margin: 0;"><strong>💬 Комментарий:</strong></p><p style="margin: 10px 0 0 0;">{comment}</p></div>' if comment else ''}
                 
                 <p style="color: #999; font-size: 12px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
-                    Это автоматическое сообщение с формы обратной связи БанкротЭксперт
+                    Это автоматическое сообщение с формы обратной связи БезДолгов59
                 </p>
             </div>
         </body>
