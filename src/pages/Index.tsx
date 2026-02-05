@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ContactDialog } from "@/components/layout/ContactDialog";
@@ -16,7 +16,7 @@ const Index = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   useEffect(() => {
     document.title = "БезДолгов59 — Банкротство в Пермском крае | Списание долгов в Перми";
@@ -43,6 +43,18 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
+      if (!executeRecaptcha) {
+        toast({
+          title: "❌ Ошибка",
+          description: "reCAPTCHA не загружена",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const recaptchaToken = await executeRecaptcha('submit_form');
+
       const response = await fetch('https://functions.poehali.dev/b2aab1e1-13c8-4208-97f7-e6a22b37b6f3', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +62,8 @@ const Index = () => {
           name: formData.name, 
           phone: formData.phone,
           debt_amount: formData.debt_amount,
-          comment: formData.comment
+          comment: formData.comment,
+          recaptcha_token: recaptchaToken
         })
       });
 
@@ -82,7 +95,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50">
       <Header 
         activeSection={activeSection}
         mobileMenuOpen={mobileMenuOpen}

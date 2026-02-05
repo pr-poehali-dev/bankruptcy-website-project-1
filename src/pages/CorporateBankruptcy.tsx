@@ -99,8 +99,8 @@ const CorporateBankruptcy = () => {
   return (
     <>
       <StructuredData type="service-corporate" />
-      <div className="min-h-screen bg-background">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button onClick={() => navigate('/')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">

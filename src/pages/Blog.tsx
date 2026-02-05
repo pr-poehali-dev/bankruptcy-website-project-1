@@ -62,17 +62,17 @@ const Blog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-white to-purple-50">
       <Navbar />
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Блог о банкротстве
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Полезные статьи, инструкции и советы экспертов по банкротству физических лиц
             </p>
           </div>
@@ -83,7 +83,7 @@ const Blog = () => {
               <Link
                 key={post.id}
                 to={`/blog/${post.slug}`}
-                className="group bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -103,15 +103,15 @@ const Blog = () => {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h2 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                  <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                  <p className="text-gray-600 mb-4 line-clamp-3">
                     {post.description}
                   </p>
 
                   {/* Meta */}
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1">
                         <Icon name="Calendar" size={16} />

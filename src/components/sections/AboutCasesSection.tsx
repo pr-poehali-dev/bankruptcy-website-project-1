@@ -11,7 +11,7 @@ export const AboutCasesSection = () => {
 
   return (
     <>
-      <section id="about" className="py-20 px-4 bg-muted/50" ref={aboutRef.ref}>
+      <section id="about" className="py-20 px-4 bg-gradient-to-br from-purple-50 to-orange-50" ref={aboutRef.ref}>
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className={`space-y-6 transition-all duration-700 ${aboutRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
@@ -19,10 +19,10 @@ export const AboutCasesSection = () => {
               <h2 className="text-4xl md:text-5xl font-bold">
                 Более <span className="text-gradient">4 лет опыта</span> в банкротстве
               </h2>
-              <p className="text-foreground leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Мы специализируемся на процедурах банкротства физических и юридических лиц. За годы работы успешно провели сотни дел, помогая людям и компаниям освободиться от долговых обязательств.
               </p>
-              <p className="text-foreground leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Наша команда состоит из опытных юристов, финансовых аналитиков и арбитражных управляющих. Мы знаем все тонкости законодательства и используем проверенные стратегии для достижения результата.
               </p>
               <div className="grid grid-cols-2 gap-6 pt-4">
@@ -33,7 +33,7 @@ export const AboutCasesSection = () => {
                     </div>
                     <div>
                       <div className="font-bold text-2xl text-gradient">500+</div>
-                      <div className="text-sm text-muted-foreground">Успешных дел</div>
+                      <div className="text-sm text-gray-600">Успешных дел</div>
                     </div>
                   </div>
                 </div>
@@ -44,7 +44,7 @@ export const AboutCasesSection = () => {
                     </div>
                     <div>
                       <div className="font-bold text-2xl text-gradient">15+</div>
-                      <div className="text-sm text-muted-foreground">Специалистов</div>
+                      <div className="text-sm text-gray-600">Специалистов</div>
                     </div>
                   </div>
                 </div>
@@ -55,7 +55,7 @@ export const AboutCasesSection = () => {
                     </div>
                     <div>
                       <div className="font-bold text-2xl text-gradient">98%</div>
-                      <div className="text-sm text-muted-foreground">Успешности</div>
+                      <div className="text-sm text-gray-600">Успешности</div>
                     </div>
                   </div>
                 </div>
@@ -66,7 +66,7 @@ export const AboutCasesSection = () => {
                     </div>
                     <div>
                       <div className="font-bold text-2xl text-gradient">5+</div>
-                      <div className="text-sm text-muted-foreground">Лет опыта</div>
+                      <div className="text-sm text-gray-600">Лет опыта</div>
                     </div>
                   </div>
                 </div>
@@ -88,7 +88,7 @@ export const AboutCasesSection = () => {
         </div>
       </section>
 
-      <section id="cases" className="py-20 px-4 bg-card" ref={casesRef.ref}>
+      <section id="cases" className="py-20 px-4 bg-white" ref={casesRef.ref}>
         <div className="container mx-auto">
           <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${casesRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
             <Badge className="gradient-primary text-white border-0">Успешные кейсы</Badge>
@@ -107,12 +107,12 @@ export const AboutCasesSection = () => {
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
                 <h3 className="text-xl font-bold">Списание 2.8 млн ₽</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-gray-600">
                   Клиент имел задолженность перед банками и МФО. Провели процедуру банкротства за 8 месяцев, долги полностью списаны.
                 </p>
                 <div className="pt-4 border-t space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Срок:</span>
+                    <span className="text-gray-600">Срок:</span>
                     <span className="font-semibold">8 месяцев</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -130,12 +130,12 @@ export const AboutCasesSection = () => {
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
                 <h3 className="text-xl font-bold">Ликвидация ООО</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-gray-600">
                   Компания с долгами 5 млн ₽. Провели процедуру конкурсного производства, защитили имущество учредителей.
                 </p>
                 <div className="pt-4 border-t space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Срок:</span>
+                    <span className="text-gray-600">Срок:</span>
                     <span className="font-semibold">12 месяцев</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -153,12 +153,12 @@ export const AboutCasesSection = () => {
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
                 <h3 className="text-xl font-bold">Реструктуризация 1.5 млн ₽</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-gray-600">
                   Долги по кредитам и налогам. Реструктуризировали долг, клиент выплачивает посильными платежами без процентов.
                 </p>
                 <div className="pt-4 border-t space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Срок:</span>
+                    <span className="text-gray-600">Срок:</span>
                     <span className="font-semibold">6 месяцев</span>
                   </div>
                   <div className="flex justify-between text-sm">

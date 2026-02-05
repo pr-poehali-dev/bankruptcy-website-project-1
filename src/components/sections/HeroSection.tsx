@@ -19,7 +19,7 @@ export const HeroSection = ({ onContactClick }: HeroSectionProps) => {
             <h1 className="text-5xl md:text-6xl font-bold leading-tight">
               Банкротство <span className="text-gradient">физических</span> и <span className="text-gradient">юридических</span> лиц в Пермском крае
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-gray-600">
               БезДолгов59 — списание долгов, защита от коллекторов и работа с судами в Перми. Гарантия результата и возврат средств при неудаче. Бесплатная консультация и анализ ситуации.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -37,15 +37,15 @@ export const HeroSection = ({ onContactClick }: HeroSectionProps) => {
             <div className="grid grid-cols-3 gap-6 pt-6">
               <div className="space-y-1">
                 <div className="text-3xl font-bold text-gradient">5+</div>
-                <div className="text-sm text-muted-foreground">лет опыта</div>
+                <div className="text-sm text-gray-600">лет опыта</div>
               </div>
               <div className="space-y-1">
                 <div className="text-3xl font-bold text-gradient">500+</div>
-                <div className="text-sm text-muted-foreground">успешных дел</div>
+                <div className="text-sm text-gray-600">успешных дел</div>
               </div>
               <div className="space-y-1">
                 <div className="text-3xl font-bold text-gradient">100%</div>
-                <div className="text-sm text-muted-foreground">гарантия</div>
+                <div className="text-sm text-gray-600">гарантия</div>
               </div>
             </div>
           </div>
