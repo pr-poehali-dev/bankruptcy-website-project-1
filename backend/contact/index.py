@@ -1,8 +1,6 @@
 import json
 import os
 import smtplib
-import urllib.request
-import urllib.parse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -37,7 +35,6 @@ def handler(event: dict, context) -> dict:
         phone = body.get('phone', '').strip()
         debt_amount = body.get('debt_amount', '').strip()
         comment = body.get('comment', '').strip()
-        recaptcha_token = body.get('recaptcha_token', '').strip()
 
         if not name or not phone:
             return {
@@ -47,47 +44,6 @@ def handler(event: dict, context) -> dict:
                     'Access-Control-Allow-Origin': '*'
                 },
                 'body': json.dumps({'error': 'Имя и телефон обязательны'})
-            }
-
-        if not recaptcha_token:
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'error': 'reCAPTCHA токен отсутствует'})
-            }
-
-        recaptcha_secret = os.environ.get('RECAPTCHA_SECRET_KEY')
-        if not recaptcha_secret:
-            return {
-                'statusCode': 500,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'error': 'reCAPTCHA не настроена'})
-            }
-
-        verify_url = 'https://www.google.com/recaptcha/api/siteverify'
-        verify_data = urllib.parse.urlencode({
-            'secret': recaptcha_secret,
-            'response': recaptcha_token
-        }).encode('utf-8')
-
-        verify_request = urllib.request.Request(verify_url, data=verify_data)
-        with urllib.request.urlopen(verify_request) as response:
-            verify_result = json.loads(response.read().decode('utf-8'))
-
-        if not verify_result.get('success') or verify_result.get('score', 0) < 0.5:
-            return {
-                'statusCode': 403,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'error': 'Проверка reCAPTCHA не пройдена'})
             }
 
         smtp_host = os.environ.get('SMTP_HOST')
