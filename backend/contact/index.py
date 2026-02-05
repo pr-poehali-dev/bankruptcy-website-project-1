@@ -131,15 +131,28 @@ def handler(event: dict, context) -> dict:
 
         msg.attach(MIMEText(html_body, 'html'))
 
+        print(f'[SMTP] Подключение к {smtp_host}:{smtp_port}')
+        
         if smtp_port == 465:
-            with smtplib.SMTP_SSL(smtp_host, smtp_port) as server:
+            print('[SMTP] Используется SSL соединение')
+            with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=10) as server:
+                print('[SMTP] Авторизация...')
                 server.login(smtp_user, smtp_password)
+                print('[SMTP] Отправка письма...')
                 server.send_message(msg)
+                print('[SMTP] Письмо отправлено')
         else:
-            with smtplib.SMTP(smtp_host, smtp_port) as server:
+            print('[SMTP] Используется STARTTLS соединение')
+            with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
+                server.ehlo()
+                print('[SMTP] Запуск STARTTLS...')
                 server.starttls()
+                server.ehlo()
+                print('[SMTP] Авторизация...')
                 server.login(smtp_user, smtp_password)
+                print('[SMTP] Отправка письма...')
                 server.send_message(msg)
+                print('[SMTP] Письмо отправлено')
 
         return {
             'statusCode': 200,
