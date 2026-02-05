@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import Footer from "@/components/Footer";
-import Header from "@/components/layout/Header";
+import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet";
 
@@ -15,7 +15,7 @@ const DebtRestructuring = () => {
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
-        <Header />
+        <Navbar />
         
         <main className="flex-grow">
           <section className="relative py-20 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
