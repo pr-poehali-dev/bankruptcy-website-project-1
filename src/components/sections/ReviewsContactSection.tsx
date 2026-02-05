@@ -158,7 +158,7 @@ export const ReviewsContactSection = ({
                     <div className="font-semibold mb-3">Свяжитесь с менеджером</div>
                     
                     <a 
-                      href="https://vk.com/im/convo/-235761936" 
+                      href="https://vk.me/bezdolgov59" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 p-3 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 hover:opacity-90 transition-opacity group"
