@@ -11,6 +11,8 @@ import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
 import IndividualBankruptcy from "./pages/IndividualBankruptcy";
 import CorporateBankruptcy from "./pages/CorporateBankruptcy";
+import DebtRestructuring from "./pages/DebtRestructuring";
+import CollectorProtection from "./pages/CollectorProtection";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/individual-bankruptcy" element={<IndividualBankruptcy />} />
             <Route path="/corporate-bankruptcy" element={<CorporateBankruptcy />} />
+            <Route path="/debt-restructuring" element={<DebtRestructuring />} />
+            <Route path="/collector-protection" element={<CollectorProtection />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
