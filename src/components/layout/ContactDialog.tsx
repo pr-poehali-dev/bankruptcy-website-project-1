@@ -10,6 +10,7 @@ interface ContactDialogProps {
     phone: string;
     debt_amount: string;
     comment: string;
+    honeypot: string;
   };
   isSubmitting: boolean;
   onFormChange: (field: string, value: string) => void;
@@ -79,6 +80,15 @@ export const ContactDialog = ({
               placeholder="Опишите вашу ситуацию"
             />
           </div>
+          <input 
+            type="text"
+            name="website"
+            value={formData.honeypot}
+            onChange={(e) => onFormChange('honeypot', e.target.value)}
+            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+            tabIndex={-1}
+            autoComplete="off"
+          />
           <Button 
             type="submit" 
             disabled={isSubmitting}

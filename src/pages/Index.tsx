@@ -13,8 +13,15 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
+
+  useEffect(() => {
+    if (dialogOpen) {
+      setFormOpenTime(Date.now());
+    }
+  }, [dialogOpen]);
+  const [formData, setFormData] = useState({ name: '', phone: '', debt_amount: '', comment: '', honeypot: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formOpenTime, setFormOpenTime] = useState<number>(0);
   const { toast } = useToast();
 
 
@@ -43,6 +50,22 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
+      if (formData.honeypot) {
+        setIsSubmitting(false);
+        return;
+      }
+
+      const timeDiff = Date.now() - formOpenTime;
+      if (timeDiff < 2000) {
+        toast({
+          title: "⏳ Подождите",
+          description: "Заполните форму внимательнее",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch('https://functions.poehali.dev/b2aab1e1-13c8-4208-97f7-e6a22b37b6f3', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +73,8 @@ const Index = () => {
           name: formData.name, 
           phone: formData.phone,
           debt_amount: formData.debt_amount,
-          comment: formData.comment
+          comment: formData.comment,
+          timestamp: formOpenTime
         })
       });
 
@@ -61,7 +85,7 @@ const Index = () => {
           title: "✅ Заявка отправлена!",
           description: "Мы свяжемся с вами в ближайшее время",
         });
-        setFormData({ name: '', phone: '', debt_amount: '', comment: '' });
+        setFormData({ name: '', phone: '', debt_amount: '', comment: '', honeypot: '' });
         setDialogOpen(false);
       } else {
         toast({

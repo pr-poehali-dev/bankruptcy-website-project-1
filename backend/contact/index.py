@@ -1,6 +1,7 @@
 import json
 import os
 import smtplib
+import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -35,6 +36,7 @@ def handler(event: dict, context) -> dict:
         phone = body.get('phone', '').strip()
         debt_amount = body.get('debt_amount', '').strip()
         comment = body.get('comment', '').strip()
+        timestamp = body.get('timestamp', 0)
 
         if not name or not phone:
             return {
@@ -45,6 +47,44 @@ def handler(event: dict, context) -> dict:
                 },
                 'body': json.dumps({'error': 'Имя и телефон обязательны'})
             }
+
+        current_time = int(time.time() * 1000)
+        time_diff = current_time - timestamp
+        
+        if time_diff < 2000:
+            return {
+                'statusCode': 429,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({'error': 'Слишком быстрая отправка'})
+            }
+
+        client_ip = event.get('requestContext', {}).get('identity', {}).get('sourceIp', '')
+        rate_limit_key = f'rate_limit_{client_ip}'
+        
+        try:
+            with open(f'/tmp/{rate_limit_key}', 'r') as f:
+                rate_data = json.loads(f.read())
+                submissions = rate_data.get('submissions', [])
+                recent_submissions = [s for s in submissions if current_time - s < 600000]
+                
+                if len(recent_submissions) >= 3:
+                    return {
+                        'statusCode': 429,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        'body': json.dumps({'error': 'Слишком много заявок. Попробуйте позже'})
+                    }
+                recent_submissions.append(current_time)
+                with open(f'/tmp/{rate_limit_key}', 'w') as f:
+                    f.write(json.dumps({'submissions': recent_submissions}))
+        except FileNotFoundError:
+            with open(f'/tmp/{rate_limit_key}', 'w') as f:
+                f.write(json.dumps({'submissions': [current_time]}))
 
         smtp_host = os.environ.get('SMTP_HOST')
         smtp_port = int(os.environ.get('SMTP_PORT', '587'))
