@@ -233,7 +233,7 @@ export const ReviewsContactSection = ({
                   >
                     {isSubmitting ? "Отправка..." : "Отправить заявку"}
                   </Button>
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-muted-foreground text-center">
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
                   </p>
                 </form>

@@ -82,23 +82,23 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-purple-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           {/* Breadcrumbs */}
           <div className="max-w-4xl mx-auto mb-8">
-            <nav className="flex items-center gap-2 text-sm text-gray-600">
-              <Link to="/" className="hover:text-purple-600 transition-colors">
+            <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Link to="/" className="hover:text-primary transition-colors">
                 Главная
               </Link>
               <Icon name="ChevronRight" size={16} />
-              <Link to="/blog" className="hover:text-purple-600 transition-colors">
+              <Link to="/blog" className="hover:text-primary transition-colors">
                 Блог
               </Link>
               <Icon name="ChevronRight" size={16} />
-              <span className="text-gray-900">{post.title}</span>
+              <span className="text-foreground">{post.title}</span>
             </nav>
           </div>
 
@@ -112,12 +112,12 @@ const BlogPost = () => {
                 </span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
                 {post.title}
               </h1>
 
               {/* Meta */}
-              <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
+              <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-6">
                 <div className="flex items-center gap-2">
                   <Icon name="User" size={18} />
                   <span>{post.author}</span>
@@ -144,7 +144,7 @@ const BlogPost = () => {
               </div>
 
               {/* Description */}
-              <p className="text-xl text-gray-700 leading-relaxed">
+              <p className="text-xl text-foreground leading-relaxed">
                 {post.description}
               </p>
             </header>
@@ -162,7 +162,7 @@ const BlogPost = () => {
 
             {/* Tags */}
             <div className="mb-12">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Ключевые темы:</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Ключевые темы:</h3>
               <div className="flex flex-wrap gap-2">
                 {post.keywords.map((keyword, index) => (
                   <span
@@ -196,7 +196,7 @@ const BlogPost = () => {
             <div className="mt-12 text-center">
               <Link
                 to="/blog"
-                className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors"
               >
                 <Icon name="ArrowLeft" size={20} />
                 Вернуться к списку статей
