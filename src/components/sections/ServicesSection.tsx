@@ -10,14 +10,14 @@ export const ServicesSection = () => {
   const servicesRef = useIntersectionObserver();
 
   return (
-    <section id="services" className="py-20 px-4 bg-white" ref={servicesRef.ref}>
+    <section id="services" className="py-20 px-4 bg-card" ref={servicesRef.ref}>
       <div className="container mx-auto">
         <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${servicesRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
           <Badge className="gradient-accent text-white border-0">Наши услуги</Badge>
           <h2 className="text-4xl md:text-5xl font-bold">
             Что мы <span className="text-gradient">предлагаем</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             Полный спектр услуг по банкротству с гарантией результата
           </p>
         </div>
@@ -28,7 +28,7 @@ export const ServicesSection = () => {
                 <Icon name="User" className="text-white" size={28} />
               </div>
               <h3 className="text-2xl font-bold">Банкротство физических лиц</h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Полное сопровождение процедуры банкротства от анализа ситуации до списания долгов. Расчет сроков и прозрачный процесс на каждом этапе.
               </p>
               <ul className="space-y-3">
@@ -62,7 +62,7 @@ export const ServicesSection = () => {
                 <Icon name="Building2" className="text-white" size={28} />
               </div>
               <h3 className="text-2xl font-bold">Банкротство юридических лиц</h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Профессиональное ведение процедур несостоятельности компаний. Сохранение активов и минимизация рисков для учредителей.
               </p>
               <ul className="space-y-3">
@@ -98,7 +98,7 @@ export const ServicesSection = () => {
                 <Icon name="Gift" className="text-white" size={24} />
               </div>
               <h4 className="font-bold text-lg">Бесплатная консультация</h4>
-              <p className="text-sm text-gray-600">Первичный анализ ситуации и оценка перспектив без оплаты</p>
+              <p className="text-sm text-muted-foreground">Первичный анализ ситуации и оценка перспектив без оплаты</p>
             </CardContent>
           </Card>
 
@@ -108,7 +108,7 @@ export const ServicesSection = () => {
                 <Icon name="Shield" className="text-white" size={24} />
               </div>
               <h4 className="font-bold text-lg">Гарантия результата</h4>
-              <p className="text-sm text-gray-600">Возврат средств, если не достигнем поставленных целей</p>
+              <p className="text-sm text-muted-foreground">Возврат средств, если не достигнем поставленных целей</p>
             </CardContent>
           </Card>
 
@@ -118,7 +118,7 @@ export const ServicesSection = () => {
                 <Icon name="Clock" className="text-white" size={24} />
               </div>
               <h4 className="font-bold text-lg">Прозрачные сроки</h4>
-              <p className="text-sm text-gray-600">Четкий план действий с расчетом временных рамок</p>
+              <p className="text-sm text-muted-foreground">Четкий план действий с расчетом временных рамок</p>
             </CardContent>
           </Card>
         </div>

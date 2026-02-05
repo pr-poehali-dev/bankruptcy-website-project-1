@@ -2,7 +2,7 @@ import Icon from "@/components/ui/icon";
 
 export const Footer = () => {
   return (
-    <footer className="bg-slate-900 text-white py-12 px-4">
+    <footer className="bg-background border-t border-border py-12 px-4">
       <div className="container mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-4">
@@ -12,41 +12,41 @@ export const Footer = () => {
               </div>
               <span className="text-xl font-bold">БезДолгов59</span>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-muted-foreground">
               Профессиональная помощь в банкротстве физических и юридических лиц в Пермском крае
             </p>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Услуги</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Банкротство физ. лиц</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Банкротство юр. лиц</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Реструктуризация долгов</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Защита от коллекторов</a></li>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="#" className="hover:text-foreground transition-colors">Банкротство физ. лиц</a></li>
+              <li><a href="#" className="hover:text-foreground transition-colors">Банкротство юр. лиц</a></li>
+              <li><a href="#" className="hover:text-foreground transition-colors">Реструктуризация долгов</a></li>
+              <li><a href="#" className="hover:text-foreground transition-colors">Защита от коллекторов</a></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Компания</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#about" className="hover:text-white transition-colors">О нас</a></li>
-              <li><a href="#cases" className="hover:text-white transition-colors">Наши кейсы</a></li>
-              <li><a href="#reviews" className="hover:text-white transition-colors">Отзывы</a></li>
-              <li><a href="/blog" className="hover:text-white transition-colors">Блог</a></li>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="#about" className="hover:text-foreground transition-colors">О нас</a></li>
+              <li><a href="#cases" className="hover:text-foreground transition-colors">Наши кейсы</a></li>
+              <li><a href="#reviews" className="hover:text-foreground transition-colors">Отзывы</a></li>
+              <li><a href="/blog" className="hover:text-foreground transition-colors">Блог</a></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Контакты</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Icon name="Phone" size={16} />
-                <a href="tel:+79026444201" className="hover:text-white transition-colors">+7 (902) 64-44-201</a>
+                <a href="tel:+79026444201" className="hover:text-foreground transition-colors">+7 (902) 64-44-201</a>
               </li>
               <li className="flex items-center gap-2">
                 <Icon name="Mail" size={16} />
-                <a href="mailto:infofaq@bezdolgov59.ru" className="hover:text-white transition-colors">infofaq@bezdolgov59.ru</a>
+                <a href="mailto:infofaq@bezdolgov59.ru" className="hover:text-foreground transition-colors">infofaq@bezdolgov59.ru</a>
               </li>
               <li className="flex items-start gap-2">
                 <Icon name="MapPin" size={16} className="mt-1" />
@@ -56,9 +56,9 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
+        <div className="border-t border-border pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-muted-foreground">
               © 2025 БезДолгов59. Все права защищены.
             </p>
             <div className="flex items-center gap-4">

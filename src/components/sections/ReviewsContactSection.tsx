@@ -27,7 +27,7 @@ export const ReviewsContactSection = ({
 
   return (
     <>
-      <section id="reviews" className="py-20 px-4 bg-gradient-to-br from-slate-50 to-purple-50" ref={reviewsRef.ref}>
+      <section id="reviews" className="py-20 px-4 bg-muted/30" ref={reviewsRef.ref}>
         <div className="container mx-auto">
           <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${reviewsRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
             <Badge className="gradient-accent text-white border-0">Отзывы клиентов</Badge>
@@ -43,7 +43,7 @@ export const ReviewsContactSection = ({
                     <Icon key={i} name="Star" className="text-yellow-400 fill-yellow-400" size={20} />
                   ))}
                 </div>
-                <p className="text-gray-700 italic">
+                <p className="text-foreground italic">
                   "Огромное спасибо команде! Помогли избавиться от кредитов на 2.5 млн рублей. Процесс прошёл быстро и без проблем. Рекомендую!"
                 </p>
                 <div className="flex items-center gap-3 pt-4">
@@ -52,7 +52,7 @@ export const ReviewsContactSection = ({
                   </div>
                   <div>
                     <div className="font-semibold">Анна М.</div>
-                    <div className="text-sm text-gray-600">Москва</div>
+                    <div className="text-sm text-muted-foreground">Москва</div>
                   </div>
                 </div>
               </CardContent>
@@ -65,7 +65,7 @@ export const ReviewsContactSection = ({
                     <Icon key={i} name="Star" className="text-yellow-400 fill-yellow-400" size={20} />
                   ))}
                 </div>
-                <p className="text-gray-700 italic">
+                <p className="text-foreground italic">
                   "Профессионалы своего дела. Провели банкротство ООО, защитили личное имущество. Всё прозрачно, без скрытых платежей."
                 </p>
                 <div className="flex items-center gap-3 pt-4">
@@ -74,7 +74,7 @@ export const ReviewsContactSection = ({
                   </div>
                   <div>
                     <div className="font-semibold">Дмитрий К.</div>
-                    <div className="text-sm text-gray-600">Санкт-Петербург</div>
+                    <div className="text-sm text-muted-foreground">Санкт-Петербург</div>
                   </div>
                 </div>
               </CardContent>
@@ -87,7 +87,7 @@ export const ReviewsContactSection = ({
                     <Icon key={i} name="Star" className="text-yellow-400 fill-yellow-400" size={20} />
                   ))}
                 </div>
-                <p className="text-gray-700 italic">
+                <p className="text-foreground italic">
                   "Обратилась с долгами по микрозаймам. Бесплатная консультация помогла понять план действий. Результатом довольна на 100%!"
                 </p>
                 <div className="flex items-center gap-3 pt-4">
@@ -96,7 +96,7 @@ export const ReviewsContactSection = ({
                   </div>
                   <div>
                     <div className="font-semibold">Елена С.</div>
-                    <div className="text-sm text-gray-600">Екатеринбург</div>
+                    <div className="text-sm text-muted-foreground">Екатеринбург</div>
                   </div>
                 </div>
               </CardContent>
@@ -105,7 +105,7 @@ export const ReviewsContactSection = ({
         </div>
       </section>
 
-      <section id="contact" className="py-20 px-4 bg-white">
+      <section id="contact" className="py-20 px-4 bg-card">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12 space-y-4">
@@ -113,7 +113,7 @@ export const ReviewsContactSection = ({
               <h2 className="text-4xl md:text-5xl font-bold">
                 Свяжитесь <span className="text-gradient">с нами</span>
               </h2>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Получите бесплатную консультацию и анализ вашей ситуации
               </p>
             </div>
@@ -128,7 +128,7 @@ export const ReviewsContactSection = ({
                     <div>
                       <div className="font-semibold mb-1">Телефон</div>
                       <a href="tel:+79026444201" className="text-primary hover:underline">+7 (902) 64-44-201</a>
-                      <div className="text-sm text-gray-600 mt-1">Пн-Пт: 9:00 - 20:00, Сб-Вс: 10:00 - 18:00</div>
+                      <div className="text-sm text-muted-foreground mt-1">Пн-Пт: 9:00 - 20:00, Сб-Вс: 10:00 - 18:00</div>
                     </div>
                   </div>
 
@@ -139,7 +139,7 @@ export const ReviewsContactSection = ({
                     <div>
                       <div className="font-semibold mb-1">Email</div>
                       <a href="mailto:infofaq@bezdolgov59.ru" className="text-primary hover:underline">infofaq@bezdolgov59.ru</a>
-                      <div className="text-sm text-gray-600 mt-1">Ответим в течение часа</div>
+                      <div className="text-sm text-muted-foreground mt-1">Ответим в течение часа</div>
                     </div>
                   </div>
 
@@ -149,8 +149,8 @@ export const ReviewsContactSection = ({
                     </div>
                     <div>
                       <div className="font-semibold mb-1">Офис</div>
-                      <div className="text-gray-700">г. Пермь, ул. Екатерининская 109А, оф. 305</div>
-                      <div className="text-sm text-gray-600 mt-1">Приём по предварительной записи</div>
+                      <div className="text-foreground">г. Пермь, ул. Екатерининская 109А, оф. 305</div>
+                      <div className="text-sm text-muted-foreground mt-1">Приём по предварительной записи</div>
                     </div>
                   </div>
 
