@@ -3,16 +3,35 @@ import Icon from "@/components/ui/icon";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const CollectorProtection = () => {
+  useEffect(() => {
+    document.title = "Защита от коллекторов в Перми - БезДолгов59";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Юридическая защита от незаконных действий коллекторов. Остановим звонки, угрозы и давление. Законные способы противодействия коллекторским агентствам. Бесплатная консультация.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Юридическая защита от незаконных действий коллекторов. Остановим звонки, угрозы и давление. Законные способы противодействия коллекторским агентствам. Бесплатная консультация.';
+      document.head.appendChild(meta);
+    }
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'защита от коллекторов, незаконные действия коллекторов, противодействие коллекторам, права должника, юридическая помощь, Пермь');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'защита от коллекторов, незаконные действия коллекторов, противодействие коллекторам, права должника, юридическая помощь, Пермь';
+      document.head.appendChild(meta);
+    }
+  }, []);
+
   return (
     <>
-      <Helmet>
-        <title>Защита от коллекторов в Перми - БезДолгов59</title>
-        <meta name="description" content="Юридическая защита от незаконных действий коллекторов. Остановим звонки, угрозы и давление. Законные способы противодействия коллекторским агентствам. Бесплатная консультация." />
-        <meta name="keywords" content="защита от коллекторов, незаконные действия коллекторов, противодействие коллекторам, права должника, юридическая помощь, Пермь" />
-      </Helmet>
 
       <div className="min-h-screen flex flex-col">
         <Navbar />

@@ -3,16 +3,35 @@ import Icon from "@/components/ui/icon";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const DebtRestructuring = () => {
+  useEffect(() => {
+    document.title = "Реструктуризация долгов в Перми - БезДолгов59";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Профессиональная помощь в реструктуризации долгов физических и юридических лиц. Легальные способы снижения долговой нагрузки, рассрочка платежей, защита от коллекторов. Консультация юриста бесплатно.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Профессиональная помощь в реструктуризации долгов физических и юридических лиц. Легальные способы снижения долговой нагрузки, рассрочка платежей, защита от коллекторов. Консультация юриста бесплатно.';
+      document.head.appendChild(meta);
+    }
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'реструктуризация долгов, рассрочка платежей, снижение долговой нагрузки, реструктуризация кредитов, помощь должникам, Пермь');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'реструктуризация долгов, рассрочка платежей, снижение долговой нагрузки, реструктуризация кредитов, помощь должникам, Пермь';
+      document.head.appendChild(meta);
+    }
+  }, []);
+
   return (
     <>
-      <Helmet>
-        <title>Реструктуризация долгов в Перми - БезДолгов59</title>
-        <meta name="description" content="Профессиональная помощь в реструктуризации долгов физических и юридических лиц. Легальные способы снижения долговой нагрузки, рассрочка платежей, защита от коллекторов. Консультация юриста бесплатно." />
-        <meta name="keywords" content="реструктуризация долгов, рассрочка платежей, снижение долговой нагрузки, реструктуризация кредитов, помощь должникам, Пермь" />
-      </Helmet>
 
       <div className="min-h-screen flex flex-col">
         <Navbar />
