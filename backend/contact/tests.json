@@ -31,14 +31,29 @@
       "bodyMatcher": "partial"
     },
     {
-      "name": "Accept valid contact form",
+      "name": "Reject request without reCAPTCHA token",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Иван Иванов",
+        "phone": "+7 (999) 123-45-67"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Accept valid contact form with reCAPTCHA",
       "method": "POST",
       "path": "/",
       "body": {
         "name": "Иван Иванов",
         "phone": "+7 (999) 123-45-67",
         "debt_amount": "1 000 000 ₽",
-        "comment": "Нужна консультация"
+        "comment": "Нужна консультация",
+        "recaptcha_token": "test_token_for_validation"
       },
       "expectedStatus": 200,
       "expectedBody": {
