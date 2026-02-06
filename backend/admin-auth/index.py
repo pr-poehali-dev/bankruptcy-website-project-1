@@ -103,10 +103,15 @@ def send_2fa_code(email: str, code: str) -> tuple[bool, str]:
         
         msg.attach(MIMEText(html, 'html'))
         
-        with smtplib.SMTP(smtp_host, smtp_port, timeout=5) as server:
-            server.starttls()
-            server.login(smtp_user, smtp_password)
-            server.send_message(msg)
+        if smtp_port == 465:
+            with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=10) as server:
+                server.login(smtp_user, smtp_password)
+                server.send_message(msg)
+        else:
+            with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
+                server.starttls()
+                server.login(smtp_user, smtp_password)
+                server.send_message(msg)
         
         print(f'Email sent successfully to {email}')
         return True, 'Код отправлен'
