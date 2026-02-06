@@ -29,26 +29,27 @@ function Download-Image {
 }
 
 # Hero and About
-Download-Image "hero-main.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/17594dad-7533-40ed-9f8f-bf67121e4243.jpg"
-Download-Image "about-main.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/e1df4e58-26a8-4646-82c4-8bfa2d5c9cde.jpg"
+Download-Image "hero-main.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/03495eb9-9dbf-4c79-bc86-6cc661a3d856.jpg"
+Download-Image "about-main.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/247970d7-fb3b-48b8-9f7d-336b4eaf84fc.jpg"
+Download-Image "og-image.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/03495eb9-9dbf-4c79-bc86-6cc661a3d856.jpg"
 
 # Blog images
-Download-Image "blog-avoid-bankruptcy.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/88bd532d-c757-44ac-8a48-65a88b89c8af.jpg"
-Download-Image "blog-bankruptcy-procedure.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/0b4233ba-98ff-4542-a284-3a43f1ff8714.jpg"
-Download-Image "blog-debt-forgiveness.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/d091a4f1-f0a7-4c76-b54b-9fc5913c6ca3.jpg"
-Download-Image "blog-financial-literacy.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/5b6c77f6-19ab-44a4-89c6-82d67295d095.jpg"
-Download-Image "blog-collector-protection.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/e176d335-425b-4394-9b17-3efbc93bbc45.jpg"
-Download-Image "blog-legal-alternatives.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/5679eda6-78fd-4484-a5dc-709110346b2b.jpg"
+Download-Image "blog-avoid-bankruptcy.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/3784f730-22ad-4dbc-86b0-c406b72f962f.jpg"
+Download-Image "blog-bankruptcy-procedure.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/840755de-79e4-4d90-969e-a2b805fab076.jpg"
+Download-Image "blog-debt-forgiveness.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/7f7803f3-9ae9-49ac-aa24-9b646a4e533b.jpg"
+Download-Image "blog-financial-literacy.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/6a28274a-e8aa-4a80-8746-7a2f45e7374f.jpg"
+Download-Image "blog-collector-protection.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/fea55ddc-23b6-4208-8aa5-69c51c3cbd45.jpg"
+Download-Image "blog-legal-alternatives.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/49236e39-9484-4a9c-90bc-a03c99fc443f.jpg"
 
 # Cases images
-Download-Image "cases-successful-individual.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/cf74a58c-2afa-41ba-a630-c679accd6acd.jpg"
-Download-Image "cases-corporate-liquidation.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/2b2d6c9b-8f00-4624-9996-14eb90afe52b.jpg"
-Download-Image "cases-restructuring.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/2cd27e4c-402b-462d-bf10-e47925c47aaf.jpg"
+Download-Image "case-successful-individual.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/54262652-6eef-4eeb-b1d4-cb07e654de97.jpg"
+Download-Image "case-corporate-liquidation.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/4866bc50-a18f-4be5-a755-b41d24ee21b0.jpg"
+Download-Image "case-restructuring.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/c4851de9-645b-42a9-9560-63339da3caac.jpg"
 
 # Team images
-Download-Image "team-consultation.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/f946d384-a1ae-4bc9-b562-a38fae6e0825.jpg"
-Download-Image "team-testimonial.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/3f8a222c-8e98-430d-8f39-40605f836ccd.jpg"
-Download-Image "team-specialist.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/ca43512b-b9f6-4f91-9cd6-8bde6bb73515.jpg"
+Download-Image "team-consultation.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/506ec3c8-e163-4f83-937d-b30e6aecfb6e.jpg"
+Download-Image "team-testimonial.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/5cc15ee7-73f7-4da0-951f-57041e80600b.jpg"
+Download-Image "team-specialist.jpg" "https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/4beb9961-2b46-43a1-b046-30e9ee1a6885.jpg"
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Download completed!" -ForegroundColor Green
