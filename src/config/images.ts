@@ -8,7 +8,7 @@ export const IMAGES = {
     fallback: '/images/about-fallback.svg'
   },
   ogImage: {
-    main: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/0fd7a5b6-3b43-422e-8839-f042bdfdef70.jpg',
+    main: 'https://bezdolgov59.ru/img/bezdolgov59.jpg',
     fallback: '/og-image-fallback.png'
   },
   blog: {
