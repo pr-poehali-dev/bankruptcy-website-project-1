@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import Icon from '@/components/ui/icon';
 import { blogPosts, type BlogPost } from '@/data/blogPosts';
+import { AdminAuthForm } from '@/components/admin/AdminAuthForm';
+import { BlogPostsList } from '@/components/admin/BlogPostsList';
+import { BlogPostEditor } from '@/components/admin/BlogPostEditor';
 
 const AdminBlog = () => {
   const navigate = useNavigate();
@@ -204,6 +203,12 @@ const AdminBlog = () => {
     }
   };
 
+  const handleCancel2FA = () => {
+    setRequires2FA(false);
+    setVerificationCode('');
+    setCodeAttemptsLeft(null);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     setAuthToken(null);
@@ -248,6 +253,10 @@ const AdminBlog = () => {
     });
   };
 
+  const handleFormChange = (field: string, value: string) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -277,15 +286,10 @@ const AdminBlog = () => {
       reader.onload = async (event) => {
         const base64 = event.target?.result as string;
 
-        const response = await fetch('https://functions.poehali.dev/292cddb3-7c44-41d9-8771-4cecdea6bff8', {
+        const response = await fetch('https://functions.poehali.dev/292cdd18-e7d0-4f99-bc35-a0e01ccbd5f7', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            image: base64,
-            filename: file.name
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64 })
         });
 
         if (!response.ok) {
@@ -330,6 +334,10 @@ const AdminBlog = () => {
       .replace(/(^-|-$)/g, '');
   };
 
+  const handleGenerateSlug = () => {
+    setFormData({ ...formData, slug: generateSlug(formData.title) });
+  };
+
   const handleSave = () => {
     const newPost: BlogPost = {
       id: isCreating ? String(blogPosts.length + 1) : editingPost!.id,
@@ -371,153 +379,27 @@ const AdminBlog = () => {
     setEditingPost(null);
   };
 
+  const handleCancel = () => {
+    setEditingPost(null);
+    setIsCreating(false);
+  };
+
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center flex items-center justify-center gap-2">
-              <Icon name="Shield" size={28} />
-              Админ-панель блога
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {lockoutTime > 0 && (
-              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-center">
-                <Icon name="Lock" size={24} className="mx-auto mb-2 text-destructive" />
-                <p className="text-sm font-medium text-destructive">
-                  Доступ заблокирован
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Попробуйте через {Math.floor(lockoutTime / 60)}:{String(lockoutTime % 60).padStart(2, '0')}
-                </p>
-              </div>
-            )}
-
-            {!requires2FA ? (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Пароль</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && !isLoggingIn && lockoutTime === 0 && handleLogin()}
-                    placeholder="Введите пароль"
-                    disabled={isLoggingIn || lockoutTime > 0}
-                  />
-                  {attemptsLeft !== null && attemptsLeft > 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      Осталось попыток: {attemptsLeft}
-                    </p>
-                  )}
-                </div>
-
-                <Button 
-                  onClick={handleLogin} 
-                  className="w-full gap-2" 
-                  disabled={isLoggingIn || lockoutTime > 0}
-                >
-                  {isLoggingIn ? (
-                    <>
-                      <Icon name="Loader2" size={20} className="animate-spin" />
-                      Проверка...
-                    </>
-                  ) : (
-                    <>
-                      <Icon name="LogIn" size={20} />
-                      Войти
-                    </>
-                  )}
-                </Button>
-              </>
-            ) : (
-              <>
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-                  <Icon name="Mail" size={24} className="mx-auto mb-2 text-blue-600" />
-                  <p className="text-sm font-medium text-blue-900">
-                    Код отправлен на email
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Проверьте почту и введите 6-значный код
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="code">Код подтверждения</Label>
-                  <Input
-                    id="code"
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={6}
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                    onKeyPress={(e) => e.key === 'Enter' && !isLoggingIn && handleVerifyCode()}
-                    placeholder="000000"
-                    className="text-center text-2xl tracking-widest"
-                    disabled={isLoggingIn}
-                  />
-                  {codeAttemptsLeft !== null && codeAttemptsLeft > 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      Осталось попыток: {codeAttemptsLeft}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={handleVerifyCode} 
-                    className="flex-1 gap-2" 
-                    disabled={isLoggingIn || verificationCode.length !== 6}
-                  >
-                    {isLoggingIn ? (
-                      <>
-                        <Icon name="Loader2" size={20} className="animate-spin" />
-                        Проверка...
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="Check" size={20} />
-                        Подтвердить
-                      </>
-                    )}
-                  </Button>
-                  <Button 
-                    onClick={() => {
-                      setRequires2FA(false);
-                      setVerificationCode('');
-                      setCodeAttemptsLeft(null);
-                    }} 
-                    variant="outline"
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              </>
-            )}
-
-            <div className="pt-4 border-t space-y-2 text-xs text-muted-foreground">
-              <div className="flex items-start gap-2">
-                <Icon name="Shield" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Защита от взлома: максимум 5 попыток</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Mail" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Двухфакторная аутентификация через email</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Clock" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Токен сессии действует 8 часов</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Lock" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Все данные защищены JWT шифрованием</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <AdminAuthForm
+        password={password}
+        setPassword={setPassword}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        isLoggingIn={isLoggingIn}
+        lockoutTime={lockoutTime}
+        attemptsLeft={attemptsLeft}
+        requires2FA={requires2FA}
+        codeAttemptsLeft={codeAttemptsLeft}
+        onLogin={handleLogin}
+        onVerifyCode={handleVerifyCode}
+        onCancel2FA={handleCancel2FA}
+      />
     );
   }
 
@@ -543,194 +425,23 @@ const AdminBlog = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Статьи</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {blogPosts.map((post) => (
-                  <div
-                    key={post.id}
-                    className={`p-4 rounded-lg border cursor-pointer transition ${
-                      editingPost?.id === post.id ? 'bg-primary/10 border-primary' : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => handleEdit(post)}
-                  >
-                    <h3 className="font-semibold">{post.title}</h3>
-                    <p className="text-sm text-muted-foreground">{post.category} • {post.date}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <BlogPostsList
+            posts={blogPosts}
+            editingPost={editingPost}
+            onEdit={handleEdit}
+          />
 
           {(editingPost || isCreating) && (
-            <Card>
-              <CardHeader>
-                <CardTitle>{isCreating ? 'Новая статья' : 'Редактирование'}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Заголовок</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="Заголовок статьи"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="slug">URL (slug)</Label>
-                  <Input
-                    id="slug"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    placeholder="nazvanie-statyi-latinicey"
-                  />
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setFormData({ ...formData, slug: generateSlug(formData.title) })}
-                  >
-                    Сгенерировать из заголовка
-                  </Button>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">Описание</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Краткое описание для превью"
-                    rows={2}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="content">Контент (HTML)</Label>
-                  <Textarea
-                    id="content"
-                    value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    placeholder="<h2>Заголовок</h2><p>Текст...</p>"
-                    rows={8}
-                    className="font-mono text-sm"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="image">Изображение</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="image"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      placeholder="https://images.unsplash.com/..."
-                      className="flex-1"
-                    />
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        disabled={uploadingImage}
-                      />
-                      <Button type="button" variant="outline" disabled={uploadingImage} className="gap-2">
-                        {uploadingImage ? (
-                          <Icon name="Loader2" size={16} className="animate-spin" />
-                        ) : (
-                          <Icon name="Upload" size={16} />
-                        )}
-                        {uploadingImage ? 'Загрузка...' : 'Загрузить'}
-                      </Button>
-                    </div>
-                  </div>
-                  {formData.image && (
-                    <div className="mt-2">
-                      <img src={formData.image} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
-                    </div>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="author">Автор</Label>
-                    <Input
-                      id="author"
-                      value={formData.author}
-                      onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                      placeholder="Имя автора"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="date">Дата</Label>
-                    <Input
-                      id="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      placeholder="25 января 2026"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="readTime">Время чтения</Label>
-                    <Input
-                      id="readTime"
-                      value={formData.readTime}
-                      onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
-                      placeholder="5 мин"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Категория</Label>
-                    <Input
-                      id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      placeholder="Советы"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="keywords">Ключевые слова (через запятую)</Label>
-                  <Input
-                    id="keywords"
-                    value={formData.keywords}
-                    onChange={(e) => setFormData({ ...formData, keywords: e.target.value })}
-                    placeholder="банкротство, финансы, долги"
-                  />
-                </div>
-
-                <div className="flex gap-2">
-                  <Button onClick={handleSave} className="flex-1 gap-2">
-                    <Icon name="Copy" size={20} />
-                    Скопировать код
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setEditingPost(null);
-                      setIsCreating(false);
-                    }}
-                  >
-                    Отмена
-                  </Button>
-                </div>
-
-                <p className="text-xs text-muted-foreground">
-                  После копирования вставьте код в массив blogPosts в файле src/data/blogPosts.ts
-                </p>
-              </CardContent>
-            </Card>
+            <BlogPostEditor
+              isCreating={isCreating}
+              formData={formData}
+              uploadingImage={uploadingImage}
+              onFormChange={handleFormChange}
+              onGenerateSlug={handleGenerateSlug}
+              onImageUpload={handleImageUpload}
+              onSave={handleSave}
+              onCancel={handleCancel}
+            />
           )}
         </div>
       </div>
