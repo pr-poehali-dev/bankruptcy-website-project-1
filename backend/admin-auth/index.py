@@ -64,12 +64,15 @@ def handler(event: dict, context) -> dict:
         }
 
 
-def send_2fa_code(email: str, code: str) -> bool:
+def send_2fa_code(email: str, code: str) -> tuple[bool, str]:
     try:
         smtp_host = os.environ.get('SMTP_HOST', '')
         smtp_port = int(os.environ.get('SMTP_PORT', '587'))
         smtp_user = os.environ.get('SMTP_USER', '')
         smtp_password = os.environ.get('SMTP_PASSWORD', '')
+        
+        if not all([smtp_host, smtp_port, smtp_user, smtp_password]):
+            return False, 'SMTP настройки не заданы'
         
         msg = MIMEMultipart('alternative')
         msg['Subject'] = 'Код подтверждения входа в админ-панель'
@@ -98,15 +101,19 @@ def send_2fa_code(email: str, code: str) -> bool:
         
         msg.attach(MIMEText(html, 'html'))
         
-        with smtplib.SMTP(smtp_host, smtp_port) as server:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=5) as server:
             server.starttls()
             server.login(smtp_user, smtp_password)
             server.send_message(msg)
         
-        return True
+        print(f'Email sent successfully to {email}')
+        return True, 'Код отправлен'
+    except smtplib.SMTPAuthenticationError:
+        print('SMTP Authentication failed')
+        return False, 'SMTP аутентификация не прошла (проверьте SMTP_USER и SMTP_PASSWORD)'
     except Exception as e:
         print(f'Email send error: {e}')
-        return False
+        return False, f'Ошибка отправки email: {str(e)}'
 
 
 def handle_login(body: dict, event: dict) -> dict:
@@ -192,13 +199,16 @@ def handle_login(body: dict, event: dict) -> dict:
     }
     
     admin_email = os.environ.get('ADMIN_EMAIL', '')
-    email_sent = send_2fa_code(admin_email, code)
+    email_sent, error_message = send_2fa_code(admin_email, code)
     
     if not email_sent:
         return {
             'statusCode': 500,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Failed to send verification code'})
+            'body': json.dumps({
+                'error': 'Failed to send verification code',
+                'message': error_message
+            })
         }
     
     masked_email = admin_email[:3] + '***@' + admin_email.split('@')[1] if '@' in admin_email else '***'
