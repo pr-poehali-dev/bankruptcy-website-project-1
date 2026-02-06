@@ -11,29 +11,29 @@ export const AboutCasesSection = () => {
 
   return (
     <>
-      <section id="about" className="py-20 px-4 bg-gradient-to-br from-purple-50 to-orange-50" ref={aboutRef.ref}>
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className={`space-y-6 transition-all duration-700 ${aboutRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-              <Badge className="gradient-primary text-white border-0">О компании</Badge>
-              <h2 className="text-4xl md:text-5xl font-bold">
+      <section id="about" className="py-12 sm:py-20 px-4 bg-gradient-to-br from-purple-50 to-orange-50" ref={aboutRef.ref}>
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className={`space-y-4 sm:space-y-6 transition-all duration-700 ${aboutRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+              <Badge className="gradient-primary text-white border-0 text-xs sm:text-sm">О компании</Badge>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
                 Более <span className="text-gradient">4 лет опыта</span> в банкротстве
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 Мы специализируемся на процедурах банкротства физических и юридических лиц. За годы работы успешно провели сотни дел, помогая людям и компаниям освободиться от долговых обязательств.
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 Наша команда состоит из опытных юристов, финансовых аналитиков и арбитражных управляющих. Мы знаем все тонкости законодательства и используем проверенные стратегии для достижения результата.
               </p>
-              <div className="grid grid-cols-2 gap-6 pt-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6 pt-2 sm:pt-4">
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
                       <Icon name="Award" className="text-white" size={20} />
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-gradient">500+</div>
-                      <div className="text-sm text-gray-600">Успешных дел</div>
+                      <div className="font-bold text-xl sm:text-2xl text-gradient">500+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Успешных дел</div>
                     </div>
                   </div>
                 </div>
@@ -43,8 +43,8 @@ export const AboutCasesSection = () => {
                       <Icon name="Users" className="text-white" size={20} />
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-gradient">15+</div>
-                      <div className="text-sm text-gray-600">Специалистов</div>
+                      <div className="font-bold text-xl sm:text-2xl text-gradient">15+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Специалистов</div>
                     </div>
                   </div>
                 </div>
@@ -54,8 +54,8 @@ export const AboutCasesSection = () => {
                       <Icon name="TrendingUp" className="text-white" size={20} />
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-gradient">98%</div>
-                      <div className="text-sm text-gray-600">Успешности</div>
+                      <div className="font-bold text-xl sm:text-2xl text-gradient">98%</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Успешности</div>
                     </div>
                   </div>
                 </div>
@@ -65,8 +65,8 @@ export const AboutCasesSection = () => {
                       <Icon name="BadgeCheck" className="text-white" size={20} />
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-gradient">5+</div>
-                      <div className="text-sm text-gray-600">Лет опыта</div>
+                      <div className="font-bold text-xl sm:text-2xl text-gradient">5+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Лет опыта</div>
                     </div>
                   </div>
                 </div>
@@ -88,25 +88,25 @@ export const AboutCasesSection = () => {
         </div>
       </section>
 
-      <section id="cases" className="py-20 px-4 bg-white" ref={casesRef.ref}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${casesRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <Badge className="gradient-primary text-white border-0">Успешные кейсы</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold">
+      <section id="cases" className="py-12 sm:py-20 px-4 bg-white" ref={casesRef.ref}>
+        <div className="container mx-auto max-w-7xl">
+          <div className={`text-center mb-8 sm:mb-16 space-y-3 sm:space-y-4 transition-all duration-700 ${casesRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+            <Badge className="gradient-primary text-white border-0 text-xs sm:text-sm">Успешные кейсы</Badge>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
               Наши <span className="text-gradient">результаты</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Реальные истории клиентов, которым мы помогли
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-primary">
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <Badge variant="outline" className="border-primary text-primary">Физ. лицо</Badge>
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
-                <h3 className="text-xl font-bold">Списание 2.8 млн ₽</h3>
+                <h3 className="text-lg sm:text-xl font-bold">Списание 2.8 млн ₽</h3>
                 <p className="text-sm text-gray-600">
                   Клиент имел задолженность перед банками и МФО. Провели процедуру банкротства за 8 месяцев, долги полностью списаны.
                 </p>
@@ -129,7 +129,7 @@ export const AboutCasesSection = () => {
                   <Badge variant="outline" className="border-accent text-accent">Юр. лицо</Badge>
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
-                <h3 className="text-xl font-bold">Ликвидация ООО</h3>
+                <h3 className="text-lg sm:text-xl font-bold">Ликвидация ООО</h3>
                 <p className="text-sm text-gray-600">
                   Компания с долгами 5 млн ₽. Провели процедуру конкурсного производства, защитили имущество учредителей.
                 </p>
@@ -152,7 +152,7 @@ export const AboutCasesSection = () => {
                   <Badge variant="outline" className="border-primary text-primary">Физ. лицо</Badge>
                   <Icon name="CheckCircle2" className="text-green-500" size={24} />
                 </div>
-                <h3 className="text-xl font-bold">Реструктуризация 1.5 млн ₽</h3>
+                <h3 className="text-lg sm:text-xl font-bold">Реструктуризация 1.5 млн ₽</h3>
                 <p className="text-sm text-gray-600">
                   Долги по кредитам и налогам. Реструктуризировали долг, клиент выплачивает посильными платежами без процентов.
                 </p>

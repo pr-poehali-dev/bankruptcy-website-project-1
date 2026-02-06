@@ -2,9 +2,9 @@ import Icon from "@/components/ui/icon";
 
 export const Footer = () => {
   return (
-    <footer className="bg-slate-900 text-white py-12 px-4">
-      <div className="container mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-slate-900 text-white py-8 sm:py-12 px-4">
+      <div className="container mx-auto max-w-7xl">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
@@ -18,7 +18,7 @@ export const Footer = () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-bold text-lg">Услуги</h4>
+            <h4 className="font-bold text-base sm:text-lg">Услуги</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><a href="/individual-bankruptcy" className="hover:text-white transition-colors">Банкротство физ. лиц</a></li>
               <li><a href="/corporate-bankruptcy" className="hover:text-white transition-colors">Банкротство юр. лиц</a></li>
@@ -28,7 +28,7 @@ export const Footer = () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-bold text-lg">Компания</h4>
+            <h4 className="font-bold text-base sm:text-lg">Компания</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><a href="#about" className="hover:text-white transition-colors">О нас</a></li>
               <li><a href="#cases" className="hover:text-white transition-colors">Наши кейсы</a></li>
@@ -38,7 +38,7 @@ export const Footer = () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-bold text-lg">Контакты</h4>
+            <h4 className="font-bold text-base sm:text-lg">Контакты</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Icon name="Phone" size={16} />
@@ -56,7 +56,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
+        <div className="border-t border-gray-800 pt-6 sm:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-400">
               © 2025 БезДолгов59. Все права защищены.

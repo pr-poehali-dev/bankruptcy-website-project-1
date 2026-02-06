@@ -28,15 +28,15 @@ export const ReviewsContactSection = ({
 
   return (
     <>
-      <section id="reviews" className="py-20 px-4 bg-gradient-to-br from-slate-50 to-purple-50" ref={reviewsRef.ref}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-16 space-y-4 transition-all duration-700 ${reviewsRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <Badge className="gradient-accent text-white border-0">Отзывы клиентов</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold">
+      <section id="reviews" className="py-12 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-purple-50" ref={reviewsRef.ref}>
+        <div className="container mx-auto max-w-7xl">
+          <div className={`text-center mb-8 sm:mb-16 space-y-3 sm:space-y-4 transition-all duration-700 ${reviewsRef.isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+            <Badge className="gradient-accent text-white border-0 text-xs sm:text-sm">Отзывы клиентов</Badge>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
               Что говорят <span className="text-gradient">наши клиенты</span>
             </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             <Card className="hover:shadow-xl transition-shadow">
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-center gap-1">
@@ -106,20 +106,20 @@ export const ReviewsContactSection = ({
         </div>
       </section>
 
-      <section id="contact" className="py-20 px-4 bg-white">
-        <div className="container mx-auto">
+      <section id="contact" className="py-12 sm:py-20 px-4 bg-white">
+        <div className="container mx-auto max-w-7xl">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12 space-y-4">
-              <Badge className="gradient-primary text-white border-0">Контакты</Badge>
-              <h2 className="text-4xl md:text-5xl font-bold">
+            <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
+              <Badge className="gradient-primary text-white border-0 text-xs sm:text-sm">Контакты</Badge>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
                 Свяжитесь <span className="text-gradient">с нами</span>
               </h2>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600 px-4">
                 Получите бесплатную консультацию и анализ вашей ситуации
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
               <Card className="p-8 space-y-6">
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
