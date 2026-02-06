@@ -176,6 +176,9 @@ def handler(event: dict, context) -> dict:
             'body': json.dumps({'error': 'Неверный формат данных'})
         }
     except Exception as e:
+        print(f'[ERROR] {type(e).__name__}: {str(e)}')
+        import traceback
+        print(f'[TRACEBACK] {traceback.format_exc()}')
         return {
             'statusCode': 500,
             'headers': {
