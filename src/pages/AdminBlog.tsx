@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,19 +9,13 @@ import { useToast } from '@/hooks/use-toast';
 import Icon from '@/components/ui/icon';
 import { blogPosts, type BlogPost } from '@/data/blogPosts';
 
+const ADMIN_PASSWORD = 'your-secure-password';
+
 const AdminBlog = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('admin_token'));
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [attemptsLeft, setAttemptsLeft] = useState<number | null>(null);
-  const [lockoutTime, setLockoutTime] = useState<number>(0);
-  const [requires2FA, setRequires2FA] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [codeAttemptsLeft, setCodeAttemptsLeft] = useState<number | null>(null);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -39,177 +33,25 @@ const AdminBlog = () => {
     keywords: ''
   });
 
-  useEffect(() => {
-    if (authToken) {
-      verifyToken();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (lockoutTime > 0) {
-      const timer = setInterval(() => {
-        setLockoutTime(prev => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [lockoutTime]);
-
-  const verifyToken = async () => {
-    if (!authToken) return;
-
-    try {
-      const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'verify', token: authToken })
+  const handleLogin = () => {
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      toast({
+        title: 'Вход выполнен',
+        description: 'Добро пожаловать в админ-панель!'
       });
-
-      const data = await response.json();
-
-      if (data.valid) {
-        setIsAuthenticated(true);
-      } else {
-        localStorage.removeItem('admin_token');
-        setAuthToken(null);
-      }
-    } catch (error) {
-      console.error('Token verification failed:', error);
-      localStorage.removeItem('admin_token');
-      setAuthToken(null);
-    }
-  };
-
-  const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
+    } else {
       toast({
         title: 'Ошибка',
-        description: 'Введите email и пароль',
+        description: 'Неверный пароль',
         variant: 'destructive'
       });
-      return;
-    }
-
-    setIsLoggingIn(true);
-
-    try {
-      const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.status === 429) {
-        setLockoutTime(data.locked_for_seconds || 900);
-        toast({
-          title: 'Доступ заблокирован',
-          description: data.message,
-          variant: 'destructive'
-        });
-      } else if (response.ok && data.success) {
-        if (data.requires_2fa) {
-          setRequires2FA(true);
-          toast({
-            title: 'Код отправлен',
-            description: data.message
-          });
-        } else {
-          localStorage.setItem('admin_token', data.token);
-          setAuthToken(data.token);
-          setIsAuthenticated(true);
-          setEmail('');
-          setPassword('');
-          setAttemptsLeft(null);
-          toast({
-            title: 'Вход выполнен',
-            description: 'Добро пожаловать в админ-панель!'
-          });
-        }
-      } else {
-        setAttemptsLeft(data.attempts_left ?? null);
-        toast({
-          title: 'Ошибка входа',
-          description: data.message || 'Неверный пароль',
-          variant: 'destructive'
-        });
-      }
-    } catch (error) {
-      toast({
-        title: 'Ошибка',
-        description: 'Не удалось подключиться к серверу',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsLoggingIn(false);
-    }
-  };
-
-  const handleVerifyCode = async () => {
-    if (!verificationCode.trim() || verificationCode.length !== 6) {
-      toast({
-        title: 'Ошибка',
-        description: 'Введите 6-значный код',
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    setIsLoggingIn(true);
-
-    try {
-      const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'verify_code', code: verificationCode })
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        localStorage.setItem('admin_token', data.token);
-        setAuthToken(data.token);
-        setIsAuthenticated(true);
-        setRequires2FA(false);
-        setVerificationCode('');
-        setCodeAttemptsLeft(null);
-        toast({
-          title: 'Вход выполнен',
-          description: 'Добро пожаловать в админ-панель!'
-        });
-      } else {
-        setCodeAttemptsLeft(data.attempts_left ?? null);
-        if (response.status === 400 || response.status === 429) {
-          setRequires2FA(false);
-          setVerificationCode('');
-        }
-        toast({
-          title: 'Ошибка',
-          description: data.message || 'Неверный код',
-          variant: 'destructive'
-        });
-      }
-    } catch (error) {
-      toast({
-        title: 'Ошибка',
-        description: 'Не удалось подключиться к серверу',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsLoggingIn(false);
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('admin_token');
-    setAuthToken(null);
     setIsAuthenticated(false);
+    setPassword('');
     toast({
       title: 'Выход выполнен',
       description: 'Вы вышли из админ-панели'
@@ -384,151 +226,21 @@ const AdminBlog = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {lockoutTime > 0 && (
-              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-center">
-                <Icon name="Lock" size={24} className="mx-auto mb-2 text-destructive" />
-                <p className="text-sm font-medium text-destructive">
-                  Доступ заблокирован
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Попробуйте через {Math.floor(lockoutTime / 60)}:{String(lockoutTime % 60).padStart(2, '0')}
-                </p>
-              </div>
-            )}
-
-            {!requires2FA ? (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@example.com"
-                    disabled={isLoggingIn || lockoutTime > 0}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="password">Пароль</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && !isLoggingIn && lockoutTime === 0 && handleLogin()}
-                    placeholder="Введите пароль"
-                    disabled={isLoggingIn || lockoutTime > 0}
-                  />
-                  {attemptsLeft !== null && attemptsLeft > 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      Осталось попыток: {attemptsLeft}
-                    </p>
-                  )}
-                </div>
-
-                <Button 
-                  onClick={handleLogin} 
-                  className="w-full gap-2" 
-                  disabled={isLoggingIn || lockoutTime > 0}
-                >
-                  {isLoggingIn ? (
-                    <>
-                      <Icon name="Loader2" size={20} className="animate-spin" />
-                      Проверка...
-                    </>
-                  ) : (
-                    <>
-                      <Icon name="LogIn" size={20} />
-                      Войти
-                    </>
-                  )}
-                </Button>
-              </>
-            ) : (
-              <>
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-                  <Icon name="Mail" size={24} className="mx-auto mb-2 text-blue-600" />
-                  <p className="text-sm font-medium text-blue-900">
-                    Код отправлен на email
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Проверьте почту и введите 6-значный код
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="code">Код подтверждения</Label>
-                  <Input
-                    id="code"
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={6}
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                    onKeyPress={(e) => e.key === 'Enter' && !isLoggingIn && handleVerifyCode()}
-                    placeholder="000000"
-                    className="text-center text-2xl tracking-widest"
-                    disabled={isLoggingIn}
-                  />
-                  {codeAttemptsLeft !== null && codeAttemptsLeft > 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      Осталось попыток: {codeAttemptsLeft}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={handleVerifyCode} 
-                    className="flex-1 gap-2" 
-                    disabled={isLoggingIn || verificationCode.length !== 6}
-                  >
-                    {isLoggingIn ? (
-                      <>
-                        <Icon name="Loader2" size={20} className="animate-spin" />
-                        Проверка...
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="Check" size={20} />
-                        Подтвердить
-                      </>
-                    )}
-                  </Button>
-                  <Button 
-                    onClick={() => {
-                      setRequires2FA(false);
-                      setVerificationCode('');
-                      setCodeAttemptsLeft(null);
-                    }} 
-                    variant="outline"
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              </>
-            )}
-
-            <div className="pt-4 border-t space-y-2 text-xs text-muted-foreground">
-              <div className="flex items-start gap-2">
-                <Icon name="Shield" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Защита от взлома: максимум 5 попыток</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Mail" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Двухфакторная аутентификация через email</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Clock" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Токен сессии действует 8 часов</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Icon name="Lock" size={14} className="mt-0.5 flex-shrink-0" />
-                <span>Все данные защищены JWT шифрованием</span>
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Пароль</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                placeholder="Введите пароль"
+              />
             </div>
+            <Button onClick={handleLogin} className="w-full gap-2">
+              <Icon name="LogIn" size={20} />
+              Войти
+            </Button>
           </CardContent>
         </Card>
       </div>
