@@ -16,14 +16,12 @@ const AdminBlog = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('admin_token'));
-  const [currentUser, setCurrentUser] = useState<any>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [attemptsLeft, setAttemptsLeft] = useState<number | null>(null);
   const [lockoutTime, setLockoutTime] = useState<number>(0);
   const [requires2FA, setRequires2FA] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [codeAttemptsLeft, setCodeAttemptsLeft] = useState<number | null>(null);
-  const [showUserManagement, setShowUserManagement] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -76,7 +74,6 @@ const AdminBlog = () => {
 
       if (data.valid) {
         setIsAuthenticated(true);
-        setCurrentUser(data.user);
       } else {
         localStorage.removeItem('admin_token');
         setAuthToken(null);
@@ -127,7 +124,6 @@ const AdminBlog = () => {
           localStorage.setItem('admin_token', data.token);
           setAuthToken(data.token);
           setIsAuthenticated(true);
-          setCurrentUser(data.user);
           setEmail('');
           setPassword('');
           setAttemptsLeft(null);
@@ -180,12 +176,9 @@ const AdminBlog = () => {
         localStorage.setItem('admin_token', data.token);
         setAuthToken(data.token);
         setIsAuthenticated(true);
-        setCurrentUser(data.user);
         setRequires2FA(false);
         setVerificationCode('');
         setCodeAttemptsLeft(null);
-        setEmail('');
-        setPassword('');
         toast({
           title: 'Вход выполнен',
           description: 'Добро пожаловать в админ-панель!'
@@ -405,6 +398,18 @@ const AdminBlog = () => {
 
             {!requires2FA ? (
               <>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@example.com"
+                    disabled={isLoggingIn || lockoutTime > 0}
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Пароль</Label>
                   <Input
