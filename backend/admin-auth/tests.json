@@ -17,7 +17,22 @@
       "expectedStatus": 401,
       "expectedBody": {
         "error": "string",
-        "attempts_left": "number"
+        "attempts_left": "number",
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Verify code without pending verification",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "verify_code",
+        "code": "123456"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
       },
       "bodyMatcher": "partial"
     },
