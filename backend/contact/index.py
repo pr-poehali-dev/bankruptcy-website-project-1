@@ -7,6 +7,7 @@ from email.mime.multipart import MIMEMultipart
 
 def handler(event: dict, context) -> dict:
     '''Обработка заявок с формы обратной связи и отправка email'''
+    print(f'[DEBUG] Секреты в окружении: SMTP_HOST={bool(os.environ.get("SMTP_HOST"))}, SMTP_PORT={bool(os.environ.get("SMTP_PORT"))}, SMTP_USER={bool(os.environ.get("SMTP_USER"))}, SMTP_PASSWORD={bool(os.environ.get("SMTP_PASSWORD"))}, RECIPIENT_EMAIL={bool(os.environ.get("RECIPIENT_EMAIL"))}')
     method = event.get('httpMethod', 'GET')
 
     if method == 'OPTIONS':
