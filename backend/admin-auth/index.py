@@ -8,6 +8,8 @@ from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timedelta
 import jwt
 import bcrypt
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 LOGIN_ATTEMPTS = {}
 MAX_ATTEMPTS = 5
@@ -16,8 +18,13 @@ LOCKOUT_TIME = 900
 TWO_FA_CODES = {}
 CODE_EXPIRY = 300
 
+def get_db_connection():
+    '''Получение соединения с базой данных'''
+    dsn = os.environ.get('DATABASE_URL', '')
+    return psycopg2.connect(dsn, cursor_factory=RealDictCursor)
+
 def handler(event: dict, context) -> dict:
-    '''Безопасная авторизация администратора с двухфакторной аутентификацией через email'''
+    '''Система авторизации с ролями, двухфакторной аутентификацией и управлением пользователями'''
     
     method = event.get('httpMethod', 'POST')
     
@@ -26,21 +33,14 @@ def handler(event: dict, context) -> dict:
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, Authorization'
             },
             'body': ''
         }
     
-    if method != 'POST':
-        return {
-            'statusCode': 405,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Method not allowed'})
-        }
-    
     try:
-        body = json.loads(event.get('body', '{}'))
+        body = json.loads(event.get('body', '{}')) if method == 'POST' else {}
         action = body.get('action', 'login')
         
         if action == 'login':
@@ -49,6 +49,14 @@ def handler(event: dict, context) -> dict:
             return handle_verify_code(body, event)
         elif action == 'verify':
             return handle_verify(body)
+        elif action == 'list_users':
+            return handle_list_users(body)
+        elif action == 'create_user':
+            return handle_create_user(body)
+        elif action == 'update_user':
+            return handle_update_user(body)
+        elif action == 'delete_user':
+            return handle_delete_user(body)
         else:
             return {
                 'statusCode': 400,
@@ -110,8 +118,16 @@ def send_2fa_code(email: str, code: str) -> bool:
 
 
 def handle_login(body: dict, event: dict) -> dict:
+    email = body.get('email', '').strip().lower()
     password = body.get('password', '')
     client_ip = event.get('requestContext', {}).get('identity', {}).get('sourceIp', 'unknown')
+    
+    if not email or not password:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Email and password required'})
+        }
     
     current_time = time.time()
     
@@ -145,69 +161,97 @@ def handle_login(body: dict, event: dict) -> dict:
                 })
             }
     
-    password_hash = os.environ.get('ADMIN_PASSWORD_HASH', '')
+    conn = get_db_connection()
+    cursor = conn.cursor()
     
-    if not password_hash:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Server configuration error'})
+    try:
+        cursor.execute(
+            "SELECT id, email, password_hash, role, is_active FROM admin_users WHERE email = %s",
+            (email,)
+        )
+        user = cursor.fetchone()
+        
+        if not user:
+            if client_ip not in LOGIN_ATTEMPTS:
+                LOGIN_ATTEMPTS[client_ip] = {'count': 0, 'locked_until': 0}
+            
+            LOGIN_ATTEMPTS[client_ip]['count'] += 1
+            attempts_left = MAX_ATTEMPTS - LOGIN_ATTEMPTS[client_ip]['count']
+            
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({
+                    'error': 'Invalid credentials',
+                    'attempts_left': max(0, attempts_left),
+                    'message': f'Неверный email или пароль. Осталось попыток: {max(0, attempts_left)}'
+                })
+            }
+        
+        if not user['is_active']:
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({
+                    'error': 'Account disabled',
+                    'message': 'Ваш аккаунт деактивирован. Обратитесь к администратору'
+                })
+            }
+        
+        password_match = bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8'))
+        
+        if not password_match:
+            if client_ip not in LOGIN_ATTEMPTS:
+                LOGIN_ATTEMPTS[client_ip] = {'count': 0, 'locked_until': 0}
+            
+            LOGIN_ATTEMPTS[client_ip]['count'] += 1
+            attempts_left = MAX_ATTEMPTS - LOGIN_ATTEMPTS[client_ip]['count']
+            
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({
+                    'error': 'Invalid credentials',
+                    'attempts_left': max(0, attempts_left),
+                    'message': f'Неверный email или пароль. Осталось попыток: {max(0, attempts_left)}'
+                })
+            }
+        
+        code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+        
+        TWO_FA_CODES[client_ip] = {
+            'code': code,
+            'expires_at': current_time + CODE_EXPIRY,
+            'attempts': 0,
+            'user_id': user['id'],
+            'email': user['email'],
+            'role': user['role']
         }
-    
-    password_match = bcrypt.checkpw(password.encode('utf-8'), password_hash.encode('utf-8'))
-    
-    if not password_match:
-        if client_ip not in LOGIN_ATTEMPTS:
-            LOGIN_ATTEMPTS[client_ip] = {'count': 0, 'locked_until': 0}
         
-        LOGIN_ATTEMPTS[client_ip]['count'] += 1
-        attempts_left = MAX_ATTEMPTS - LOGIN_ATTEMPTS[client_ip]['count']
+        email_sent = send_2fa_code(user['email'], code)
+        
+        if not email_sent:
+            return {
+                'statusCode': 500,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Failed to send verification code'})
+            }
+        
+        masked_email = user['email'][:3] + '***@' + user['email'].split('@')[1]
         
         return {
-            'statusCode': 401,
+            'statusCode': 200,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({
-                'error': 'Invalid password',
-                'attempts_left': max(0, attempts_left),
-                'message': f'Неверный пароль. Осталось попыток: {max(0, attempts_left)}'
+                'success': True,
+                'requires_2fa': True,
+                'message': f'Код подтверждения отправлен на {masked_email}'
             })
         }
-    
-    admin_email = os.environ.get('ADMIN_EMAIL', '')
-    
-    if not admin_email:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Admin email not configured'})
-        }
-    
-    code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
-    
-    TWO_FA_CODES[client_ip] = {
-        'code': code,
-        'expires_at': current_time + CODE_EXPIRY,
-        'attempts': 0
-    }
-    
-    email_sent = send_2fa_code(admin_email, code)
-    
-    if not email_sent:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'Failed to send verification code'})
-        }
-    
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-        'body': json.dumps({
-            'success': True,
-            'requires_2fa': True,
-            'message': f'Код подтверждения отправлен на {admin_email[:3]}***@{admin_email.split("@")[1]}'
-        })
-    }
+        
+    finally:
+        cursor.close()
+        conn.close()
 
 
 def handle_verify_code(body: dict, event: dict) -> dict:
@@ -222,7 +266,7 @@ def handle_verify_code(body: dict, event: dict) -> dict:
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({
                 'error': 'No pending verification',
-                'message': 'Сначала введите пароль'
+                'message': 'Сначала введите email и пароль'
             })
         }
     
@@ -263,10 +307,27 @@ def handle_verify_code(body: dict, event: dict) -> dict:
             })
         }
     
+    user_id = code_data['user_id']
+    user_email = code_data['email']
+    user_role = code_data['role']
+    
     del TWO_FA_CODES[client_ip]
     
     if client_ip in LOGIN_ATTEMPTS:
         del LOGIN_ATTEMPTS[client_ip]
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            "UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = %s",
+            (user_id,)
+        )
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
     
     jwt_secret = os.environ.get('JWT_SECRET_KEY', '')
     
@@ -281,7 +342,9 @@ def handle_verify_code(body: dict, event: dict) -> dict:
     
     token = jwt.encode(
         {
-            'role': 'admin',
+            'user_id': user_id,
+            'email': user_email,
+            'role': user_role,
             'exp': expiration,
             'iat': datetime.utcnow(),
             'ip': client_ip
@@ -296,6 +359,11 @@ def handle_verify_code(body: dict, event: dict) -> dict:
         'body': json.dumps({
             'success': True,
             'token': token,
+            'user': {
+                'id': user_id,
+                'email': user_email,
+                'role': user_role
+            },
             'expires_at': expiration.isoformat(),
             'message': 'Вход выполнен успешно'
         })
@@ -329,7 +397,11 @@ def handle_verify(body: dict) -> dict:
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({
                 'valid': True,
-                'role': payload.get('role'),
+                'user': {
+                    'id': payload.get('user_id'),
+                    'email': payload.get('email'),
+                    'role': payload.get('role')
+                },
                 'expires_at': datetime.fromtimestamp(payload.get('exp')).isoformat()
             })
         }
@@ -345,3 +417,232 @@ def handle_verify(body: dict) -> dict:
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'valid': False, 'error': 'Invalid token'})
         }
+
+
+def verify_admin_token(token: str) -> dict:
+    '''Проверка токена и прав администратора'''
+    jwt_secret = os.environ.get('JWT_SECRET_KEY', '')
+    
+    try:
+        payload = jwt.decode(token, jwt_secret, algorithms=['HS256'])
+        
+        if payload.get('role') != 'admin':
+            return {'valid': False, 'error': 'Insufficient permissions'}
+        
+        return {'valid': True, 'payload': payload}
+    except:
+        return {'valid': False, 'error': 'Invalid token'}
+
+
+def handle_list_users(body: dict) -> dict:
+    token = body.get('token', '')
+    auth = verify_admin_token(token)
+    
+    if not auth['valid']:
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': auth.get('error', 'Access denied')})
+        }
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            "SELECT id, email, role, created_at, last_login, is_active FROM admin_users ORDER BY created_at DESC"
+        )
+        users = cursor.fetchall()
+        
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'success': True,
+                'users': [dict(user) for user in users]
+            }, default=str)
+        }
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def handle_create_user(body: dict) -> dict:
+    token = body.get('token', '')
+    auth = verify_admin_token(token)
+    
+    if not auth['valid']:
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': auth.get('error', 'Access denied')})
+        }
+    
+    email = body.get('email', '').strip().lower()
+    password = body.get('password', '')
+    role = body.get('role', 'viewer')
+    
+    if not email or not password:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Email and password required'})
+        }
+    
+    if role not in ['viewer', 'editor', 'admin']:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Invalid role. Must be: viewer, editor, or admin'})
+        }
+    
+    password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(rounds=12)).decode('utf-8')
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            "INSERT INTO admin_users (email, password_hash, role) VALUES (%s, %s, %s) RETURNING id",
+            (email, password_hash, role)
+        )
+        user_id = cursor.fetchone()['id']
+        conn.commit()
+        
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'success': True,
+                'user_id': user_id,
+                'message': f'Пользователь {email} успешно создан'
+            })
+        }
+    except psycopg2.IntegrityError:
+        conn.rollback()
+        return {
+            'statusCode': 409,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'User with this email already exists'})
+        }
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def handle_update_user(body: dict) -> dict:
+    token = body.get('token', '')
+    auth = verify_admin_token(token)
+    
+    if not auth['valid']:
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': auth.get('error', 'Access denied')})
+        }
+    
+    user_id = body.get('user_id')
+    updates = {}
+    
+    if 'role' in body:
+        if body['role'] not in ['viewer', 'editor', 'admin']:
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Invalid role'})
+            }
+        updates['role'] = body['role']
+    
+    if 'is_active' in body:
+        updates['is_active'] = body['is_active']
+    
+    if 'password' in body and body['password']:
+        password_hash = bcrypt.hashpw(body['password'].encode('utf-8'), bcrypt.gensalt(rounds=12)).decode('utf-8')
+        updates['password_hash'] = password_hash
+    
+    if not updates:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'No updates provided'})
+        }
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        set_clause = ', '.join([f"{key} = %s" for key in updates.keys()])
+        values = list(updates.values()) + [user_id]
+        
+        cursor.execute(
+            f"UPDATE admin_users SET {set_clause}, updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+            values
+        )
+        conn.commit()
+        
+        if cursor.rowcount == 0:
+            return {
+                'statusCode': 404,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'User not found'})
+            }
+        
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'success': True,
+                'message': 'Пользователь успешно обновлён'
+            })
+        }
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def handle_delete_user(body: dict) -> dict:
+    token = body.get('token', '')
+    auth = verify_admin_token(token)
+    
+    if not auth['valid']:
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': auth.get('error', 'Access denied')})
+        }
+    
+    user_id = body.get('user_id')
+    current_user_id = auth['payload']['user_id']
+    
+    if user_id == current_user_id:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Cannot delete yourself'})
+        }
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("DELETE FROM admin_users WHERE id = %s", (user_id,))
+        conn.commit()
+        
+        if cursor.rowcount == 0:
+            return {
+                'statusCode': 404,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'User not found'})
+            }
+        
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({
+                'success': True,
+                'message': 'Пользователь успешно удалён'
+            })
+        }
+    finally:
+        cursor.close()
+        conn.close()

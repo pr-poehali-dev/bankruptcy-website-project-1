@@ -12,15 +12,18 @@ import { blogPosts, type BlogPost } from '@/data/blogPosts';
 const AdminBlog = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('admin_token'));
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [attemptsLeft, setAttemptsLeft] = useState<number | null>(null);
   const [lockoutTime, setLockoutTime] = useState<number>(0);
   const [requires2FA, setRequires2FA] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [codeAttemptsLeft, setCodeAttemptsLeft] = useState<number | null>(null);
+  const [showUserManagement, setShowUserManagement] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -73,6 +76,7 @@ const AdminBlog = () => {
 
       if (data.valid) {
         setIsAuthenticated(true);
+        setCurrentUser(data.user);
       } else {
         localStorage.removeItem('admin_token');
         setAuthToken(null);
@@ -85,10 +89,10 @@ const AdminBlog = () => {
   };
 
   const handleLogin = async () => {
-    if (!password.trim()) {
+    if (!email.trim() || !password.trim()) {
       toast({
         title: 'Ошибка',
-        description: 'Введите пароль',
+        description: 'Введите email и пароль',
         variant: 'destructive'
       });
       return;
@@ -100,7 +104,7 @@ const AdminBlog = () => {
       const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', password })
+        body: JSON.stringify({ action: 'login', email, password })
       });
 
       const data = await response.json();
@@ -115,7 +119,6 @@ const AdminBlog = () => {
       } else if (response.ok && data.success) {
         if (data.requires_2fa) {
           setRequires2FA(true);
-          setPassword('');
           toast({
             title: 'Код отправлен',
             description: data.message
@@ -124,6 +127,8 @@ const AdminBlog = () => {
           localStorage.setItem('admin_token', data.token);
           setAuthToken(data.token);
           setIsAuthenticated(true);
+          setCurrentUser(data.user);
+          setEmail('');
           setPassword('');
           setAttemptsLeft(null);
           toast({
@@ -175,9 +180,12 @@ const AdminBlog = () => {
         localStorage.setItem('admin_token', data.token);
         setAuthToken(data.token);
         setIsAuthenticated(true);
+        setCurrentUser(data.user);
         setRequires2FA(false);
         setVerificationCode('');
         setCodeAttemptsLeft(null);
+        setEmail('');
+        setPassword('');
         toast({
           title: 'Вход выполнен',
           description: 'Добро пожаловать в админ-панель!'
