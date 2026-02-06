@@ -38,7 +38,8 @@
         "name": "Иван Иванов",
         "phone": "+7 (999) 123-45-67",
         "debt_amount": "1 000 000 ₽",
-        "comment": "Нужна консультация"
+        "comment": "Нужна консультация",
+        "timestamp": 1000000000000
       },
       "expectedStatus": 200,
       "expectedBody": {

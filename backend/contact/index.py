@@ -88,10 +88,12 @@ def handler(event: dict, context) -> dict:
                 f.write(json.dumps({'submissions': [current_time]}))
 
         smtp_host = os.environ.get('SMTP_HOST')
-        smtp_port = int(os.environ.get('SMTP_PORT', '587'))
+        smtp_port = int(os.environ.get('SMTP_PORT', '465'))
         smtp_user = os.environ.get('SMTP_USER')
         smtp_password = os.environ.get('SMTP_PASSWORD')
         recipient_email = os.environ.get('RECIPIENT_EMAIL')
+        
+        print(f'[DEBUG] SMTP настройки: host={smtp_host}, port={smtp_port}, user={smtp_user}')
 
         if not all([smtp_host, smtp_user, smtp_password, recipient_email]):
             return {
