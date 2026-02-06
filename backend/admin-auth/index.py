@@ -71,6 +71,8 @@ def send_2fa_code(email: str, code: str) -> tuple[bool, str]:
         smtp_user = os.environ.get('SMTP_USER', '')
         smtp_password = os.environ.get('SMTP_PASSWORD', '')
         
+        print(f'SMTP Config: host={smtp_host}, port={smtp_port}, user={smtp_user}, pass={"***" if smtp_password else "EMPTY"}')
+        
         if not all([smtp_host, smtp_port, smtp_user, smtp_password]):
             return False, 'SMTP настройки не заданы'
         
