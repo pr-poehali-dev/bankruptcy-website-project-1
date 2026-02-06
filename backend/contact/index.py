@@ -94,6 +94,8 @@ def handler(event: dict, context) -> dict:
         recipient_email = os.environ.get('RECIPIENT_EMAIL')
         
         print(f'[DEBUG] SMTP настройки: host={smtp_host}, port={smtp_port}, user={smtp_user}')
+        print(f'[DEBUG] Password length: {len(smtp_password) if smtp_password else 0}')
+        print(f'[DEBUG] Password первые 3 символа: {smtp_password[:3] if smtp_password else "None"}...')
         print(f'[DEBUG] Попытка отправки письма...')
 
         if not all([smtp_host, smtp_user, smtp_password, recipient_email]):
