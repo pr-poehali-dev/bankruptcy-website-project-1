@@ -20,10 +20,10 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Услуги</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Банкротство физ. лиц</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Банкротство юр. лиц</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Реструктуризация долгов</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Защита от коллекторов</a></li>
+              <li><a href="/individual-bankruptcy" className="hover:text-white transition-colors">Банкротство физ. лиц</a></li>
+              <li><a href="/corporate-bankruptcy" className="hover:text-white transition-colors">Банкротство юр. лиц</a></li>
+              <li><a href="/debt-restructuring" className="hover:text-white transition-colors">Реструктуризация долгов</a></li>
+              <li><a href="/collector-protection" className="hover:text-white transition-colors">Защита от коллекторов</a></li>
             </ul>
           </div>
 
