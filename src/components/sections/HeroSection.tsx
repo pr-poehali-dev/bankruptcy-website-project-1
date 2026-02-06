@@ -15,7 +15,7 @@ export const HeroSection = ({ onContactClick }: HeroSectionProps) => {
       <div className="container mx-auto max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="space-y-4 sm:space-y-6 animate-fade-in">
-            <Badge className="gradient-accent text-white border-0 text-xs sm:text-sm">Более 4 лет успешной практики</Badge>
+            <Badge className="gradient-accent text-white border-0 text-xs sm:text-sm">Более 5 лет успешной практики</Badge>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               Банкротство <span className="text-gradient">физических</span> и <span className="text-gradient">юридических</span> лиц в Пермском крае
             </h1>
@@ -40,7 +40,7 @@ export const HeroSection = ({ onContactClick }: HeroSectionProps) => {
                 <div className="text-xs sm:text-sm text-gray-600">лет опыта</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl sm:text-3xl font-bold text-gradient">500+</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gradient">100+</div>
                 <div className="text-xs sm:text-sm text-gray-600">успешных дел</div>
               </div>
               <div className="space-y-1">
