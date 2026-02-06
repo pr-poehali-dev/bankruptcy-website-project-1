@@ -1,0 +1,38 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS request",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Login with wrong password",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "login",
+        "password": "wrongpassword"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "string",
+        "attempts_left": "number"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Verify token without token",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "verify"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "valid": false
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

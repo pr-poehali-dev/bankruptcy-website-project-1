@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,10 @@ const AdminBlog = () => {
   const { toast } = useToast();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('admin_token'));
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [attemptsLeft, setAttemptsLeft] = useState<number | null>(null);
+  const [lockoutTime, setLockoutTime] = useState<number>(0);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -31,20 +35,117 @@ const AdminBlog = () => {
     keywords: ''
   });
 
-  const handleLogin = () => {
-    if (password === 'admin2026') {
-      setIsAuthenticated(true);
-      toast({
-        title: 'Вход выполнен',
-        description: 'Добро пожаловать в админ-панель!'
+  useEffect(() => {
+    if (authToken) {
+      verifyToken();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (lockoutTime > 0) {
+      const timer = setInterval(() => {
+        setLockoutTime(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [lockoutTime]);
+
+  const verifyToken = async () => {
+    if (!authToken) return;
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'verify', token: authToken })
       });
-    } else {
+
+      const data = await response.json();
+
+      if (data.valid) {
+        setIsAuthenticated(true);
+      } else {
+        localStorage.removeItem('admin_token');
+        setAuthToken(null);
+      }
+    } catch (error) {
+      console.error('Token verification failed:', error);
+      localStorage.removeItem('admin_token');
+      setAuthToken(null);
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!password.trim()) {
       toast({
         title: 'Ошибка',
-        description: 'Неверный пароль',
+        description: 'Введите пароль',
         variant: 'destructive'
       });
+      return;
     }
+
+    setIsLoggingIn(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/27069cbd-6c31-4646-bb54-2bc66c42b2a8', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', password })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 429) {
+        setLockoutTime(data.locked_for_seconds || 900);
+        toast({
+          title: 'Доступ заблокирован',
+          description: data.message,
+          variant: 'destructive'
+        });
+      } else if (response.ok && data.success) {
+        localStorage.setItem('admin_token', data.token);
+        setAuthToken(data.token);
+        setIsAuthenticated(true);
+        setPassword('');
+        setAttemptsLeft(null);
+        toast({
+          title: 'Вход выполнен',
+          description: 'Добро пожаловать в админ-панель!'
+        });
+      } else {
+        setAttemptsLeft(data.attempts_left ?? null);
+        toast({
+          title: 'Ошибка входа',
+          description: data.message || 'Неверный пароль',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось подключиться к серверу',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_token');
+    setAuthToken(null);
+    setIsAuthenticated(false);
+    toast({
+      title: 'Выход выполнен',
+      description: 'Вы вышли из админ-панели'
+    });
   };
 
   const handleEdit = (post: BlogPost) => {
@@ -209,9 +310,24 @@ const AdminBlog = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Админ-панель блога</CardTitle>
+            <CardTitle className="text-2xl text-center flex items-center justify-center gap-2">
+              <Icon name="Shield" size={28} />
+              Админ-панель блога
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            {lockoutTime > 0 && (
+              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-center">
+                <Icon name="Lock" size={24} className="mx-auto mb-2 text-destructive" />
+                <p className="text-sm font-medium text-destructive">
+                  Доступ заблокирован
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Попробуйте через {Math.floor(lockoutTime / 60)}:{String(lockoutTime % 60).padStart(2, '0')}
+                </p>
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="password">Пароль</Label>
               <Input
@@ -219,13 +335,49 @@ const AdminBlog = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                onKeyPress={(e) => e.key === 'Enter' && !isLoggingIn && lockoutTime === 0 && handleLogin()}
                 placeholder="Введите пароль"
+                disabled={isLoggingIn || lockoutTime > 0}
               />
+              {attemptsLeft !== null && attemptsLeft > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Осталось попыток: {attemptsLeft}
+                </p>
+              )}
             </div>
-            <Button onClick={handleLogin} className="w-full">
-              Войти
+
+            <Button 
+              onClick={handleLogin} 
+              className="w-full gap-2" 
+              disabled={isLoggingIn || lockoutTime > 0}
+            >
+              {isLoggingIn ? (
+                <>
+                  <Icon name="Loader2" size={20} className="animate-spin" />
+                  Проверка...
+                </>
+              ) : (
+                <>
+                  <Icon name="LogIn" size={20} />
+                  Войти
+                </>
+              )}
             </Button>
+
+            <div className="pt-4 border-t space-y-2 text-xs text-muted-foreground">
+              <div className="flex items-start gap-2">
+                <Icon name="Shield" size={14} className="mt-0.5 flex-shrink-0" />
+                <span>Защита от взлома: максимум 5 попыток</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Icon name="Clock" size={14} className="mt-0.5 flex-shrink-0" />
+                <span>Токен сессии действует 8 часов</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Icon name="Lock" size={14} className="mt-0.5 flex-shrink-0" />
+                <span>Все данные защищены JWT шифрованием</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -245,6 +397,10 @@ const AdminBlog = () => {
             <Button onClick={() => navigate('/blog')} variant="outline" className="gap-2">
               <Icon name="ArrowLeft" size={20} />
               К блогу
+            </Button>
+            <Button onClick={handleLogout} variant="destructive" className="gap-2">
+              <Icon name="LogOut" size={20} />
+              Выйти
             </Button>
           </div>
         </div>
