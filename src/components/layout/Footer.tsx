@@ -62,9 +62,10 @@ export const Footer = () => {
 
         <div className="border-t border-gray-800 pt-6 sm:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-400">
-              © 2025 БезДолгов59. Все права защищены.
-            </p>
+            <div className="text-sm text-gray-400">
+              <p>© 2020-{new Date().getFullYear()} БезДолгов59. Все права защищены.</p>
+              <p>ИП Хабибрахманов А.Ф. ОГРНИП: 323595800035942</p>
+            </div>
             <div className="flex items-center gap-4">
               <a href="https://vk.com/bezdolgov59" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 hover:opacity-80 transition-opacity flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">

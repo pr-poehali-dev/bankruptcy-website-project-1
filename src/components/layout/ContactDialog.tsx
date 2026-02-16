@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { Link } from "react-router-dom";
 
 interface ContactDialogProps {
   dialogOpen: boolean;
@@ -97,7 +98,8 @@ export const ContactDialog = ({
             {isSubmitting ? "Отправка..." : "Отправить заявку"}
           </Button>
           <p className="text-xs text-gray-500 text-center">
-            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+            Нажимая кнопку, вы соглашаетесь с{" "}
+            <Link to="/privacy-policy" className="text-primary hover:underline">политикой конфиденциальности</Link>
           </p>
         </form>
       </DialogContent>

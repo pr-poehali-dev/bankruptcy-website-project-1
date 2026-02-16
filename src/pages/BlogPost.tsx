@@ -244,7 +244,8 @@ const BlogPost = () => {
               <Icon name="Send" size={16} className="ml-2" />
             </Button>
             <p className="text-xs text-gray-500 text-center">
-              Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+              Нажимая кнопку, вы соглашаетесь с{" "}
+              <Link to="/privacy-policy" className="text-primary hover:underline">политикой конфиденциальности</Link>
             </p>
           </form>
         </DialogContent>

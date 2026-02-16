@@ -111,8 +111,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2021-2026 БезДолгов59. Все права защищены.</p>
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400 space-y-1">
+          <p>&copy; 2020-{new Date().getFullYear()} БезДолгов59. Все права защищены.</p>
+          <p>ИП Хабибрахманов А.Ф. ОГРНИП: 323595800035942</p>
         </div>
       </div>
     </footer>
