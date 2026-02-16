@@ -82,6 +82,12 @@ const Footer = () => {
                 <Icon name="MapPin" size={16} />
                 <span>Пермь, ул. Екатерининская 109А, оф. 305</span>
               </li>
+              <li className="flex items-center gap-2">
+                <Icon name="FileText" size={16} />
+                <Link to="/privacy-policy" className="hover:text-white transition-colors">
+                  Политика конфиденциальности
+                </Link>
+              </li>
             </ul>
             <div className="flex gap-3 mt-4">
               <a

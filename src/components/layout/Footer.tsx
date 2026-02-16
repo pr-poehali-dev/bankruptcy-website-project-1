@@ -52,6 +52,10 @@ export const Footer = () => {
                 <Icon name="MapPin" size={16} className="mt-1" />
                 <span>г. Пермь, ул. Екатерининская 109А, оф. 305</span>
               </li>
+              <li className="flex items-center gap-2">
+                <Icon name="FileText" size={16} />
+                <a href="/privacy-policy" className="hover:text-white transition-colors">Политика конфиденциальности</a>
+              </li>
             </ul>
           </div>
         </div>
