@@ -88,6 +88,12 @@ const Footer = () => {
                   Политика конфиденциальности
                 </Link>
               </li>
+              <li className="flex items-center gap-2">
+                <Icon name="Cookie" fallback="FileText" size={16} />
+                <Link to="/cookies" className="hover:text-white transition-colors">
+                  Политика cookie
+                </Link>
+              </li>
             </ul>
             <div className="flex gap-3 mt-4">
               <a

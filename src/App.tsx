@@ -14,7 +14,9 @@ import CorporateBankruptcy from "./pages/CorporateBankruptcy";
 import DebtRestructuring from "./pages/DebtRestructuring";
 import CollectorProtection from "./pages/CollectorProtection";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiesPolicy from "./pages/CookiesPolicy";
 import NotFoundPage from "./pages/NotFoundPage";
+import CookieBanner from "./components/CookieBanner";
 
 const queryClient = new QueryClient();
 
@@ -34,9 +36,11 @@ const App = () => (
             <Route path="/debt-restructuring" element={<DebtRestructuring />} />
             <Route path="/collector-protection" element={<CollectorProtection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/cookies" element={<CookiesPolicy />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

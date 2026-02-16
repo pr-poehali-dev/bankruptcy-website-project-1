@@ -56,6 +56,10 @@ export const Footer = () => {
                 <Icon name="FileText" size={16} />
                 <a href="/privacy-policy" className="hover:text-white transition-colors">Политика конфиденциальности</a>
               </li>
+              <li className="flex items-center gap-2">
+                <Icon name="Cookie" fallback="FileText" size={16} />
+                <a href="/cookies" className="hover:text-white transition-colors">Политика cookie</a>
+              </li>
             </ul>
           </div>
         </div>
