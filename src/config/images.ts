@@ -1,4 +1,8 @@
 export const IMAGES = {
+  favicon: {
+    main: '/image_save/favicon.jpg',
+    fallback: '/image_save/favicon.jpg'
+  },
   hero: {
     main: '/image_save/hero-main.jpg',
     fallback: '/images/hero-fallback.svg'

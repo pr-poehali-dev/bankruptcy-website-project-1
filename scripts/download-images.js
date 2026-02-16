@@ -8,6 +8,10 @@ const __dirname = dirname(__filename);
 
 const images = [
   {
+    url: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/968010d2-42a4-43fe-b8b0-a5644918c3c7.jpg',
+    name: 'favicon.jpg'
+  },
+  {
     url: 'https://cdn.poehali.dev/projects/d5087a09-6026-4ae1-a115-dbdb11cde4fb/files/17594dad-7533-40ed-9f8f-bf67121e4243.jpg',
     name: 'hero-main.jpg'
   },
